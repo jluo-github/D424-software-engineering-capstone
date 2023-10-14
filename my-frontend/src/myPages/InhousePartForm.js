@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 const InhousePartForm = () => {
   const navigate = useNavigate();
@@ -13,21 +13,36 @@ const InhousePartForm = () => {
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/parts/update/${id}`, {
-        header: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setPart(res.data);
-      })
-      .catch((err) => {
-        console.log("No inhouse parts", err);
-        // handle error
+    if (id) {
+      const fetchParts = async () => {
+        try {
+          const res = await axios.get(
+            `http://localhost:8080/api/parts/update/${id}`,
+            {
+              header: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods":
+                  "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+              },
+            }
+          );
+          console.log(res.data);
+          setPart(res.data);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      fetchParts();
+    } else {
+      setPart({
+        name: "",
+        price: "",
+        inv: "",
+        max: "",
+        min: "",
+        partId: "",
       });
+    }
   }, []);
 
   const handleInputChange = (e) => {
@@ -126,7 +141,7 @@ const InhousePartForm = () => {
           placeholder="Part Inhouse ID"
           required
           name="partId"
-          type="text"
+          type="number"
           value={part.partId}
           onChange={handleInputChange}
         />

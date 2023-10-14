@@ -27,6 +27,7 @@ function App() {
         <Route path="products" element={<MainScreen />} />
         <Route path="products/:id" element={<ProductDetail />} />
         <Route path="ProductDetail" element={<ProductDetail />} />
+        <Route path="ProductDetail/:id" element={<ProductDetail />} />
 
         <Route path="about" element={<About />} />
         <Route path="*" element={<PageNotFound />} />

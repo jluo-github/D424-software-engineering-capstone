@@ -224,6 +224,8 @@ const MainScreen = () => {
               <td>{product.price}</td>
               <td>{product.inv}</td>
               <td>
+                {/*  Update button */}
+
                 <button
                   className="btn btn-primary btn-sm m-3"
                   onClick={() => {
@@ -231,11 +233,24 @@ const MainScreen = () => {
                   }}>
                   Update
                 </button>
-                <a
+
+                {/*  Buy button */}
+
+                <button
                   className="btn btn-primary btn-sm m-3"
-                  href={`/buy/${product.id}`}>
+                  onClick={() => {
+                    if (product.inv > 0) {
+                      navigate(`/ProductDetail/${product.id}`);
+                    } else {
+                      alert("Please select a product with enough inventory ");
+                      navigate(`/`);
+                    }
+                  }}>
                   Buy Now
-                </a>
+                </button>
+
+                {/*  Delete button */}
+
                 <button
                   className="btn btn-primary btn-sm m-3"
                   onClick={async () => {

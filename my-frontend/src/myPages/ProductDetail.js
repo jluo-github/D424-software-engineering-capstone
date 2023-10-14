@@ -13,29 +13,61 @@ const ProductDetail = () => {
   const [associatedParts, setAssociatedParts] = useState([]);
   const [errors, setErrors] = useState([]);
 
-  // const productId = 1; // Replace with the actual product ID
-
   useEffect(() => {
-    // Fetch product details and associated parts
-    axios
-      .get(`http://localhost:8080/api/products/update/${id}`, {
-        header: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-        },
-      })
-      .then((response) => {
-        const { product, availparts, parts, assparts } = response.data;
-        setProduct(product);
-        console.log(product);
-        setAvailableParts(availparts);
-        setAssociatedParts(assparts);
-        console.log(availparts);
-        console.log(assparts);
-      })
-      .catch((error) => {
-        console.error("No product details:", error);
-      });
+    if (id) {
+      const fetchProducts = async () => {
+        try {
+          const res = await axios.get(
+            // http://localhost:8080/api/products/update/1
+            `http://localhost:8080/api/products/update/${id}`,
+            {
+              header: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods":
+                  "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+              },
+            }
+          );
+          console.log(res.data);
+          const { product, availparts, parts, assparts } = res.data;
+          setProduct(product);
+          setAvailableParts(availparts);
+          setAssociatedParts(assparts);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      fetchProducts();
+    } else {
+      const fetchProducts = async () => {
+        try {
+          const res = await axios.get(
+            // http://localhost:8080/api/products/update/1
+            `http://localhost:8080/api/products/add`,
+            {
+              header: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods":
+                  "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+              },
+            }
+          );
+          console.log(res.data);
+          const { product, availparts, parts, assparts } = res.data;
+          // setProduct(product);
+          setProduct({
+            name: "",
+            price: "",
+            inv: "",
+          });
+          setAvailableParts(availparts);
+          setAssociatedParts(assparts);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      fetchProducts();
+    }
   }, []);
 
   const handleInputChange = (e) => {
@@ -48,7 +80,6 @@ const ProductDetail = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Make a POST request to update the product
     axios
       .post(`http://localhost:8080/api/products/add`, product, {
         header: {
@@ -57,7 +88,6 @@ const ProductDetail = () => {
         },
       })
       .then((response) => {
-        // Handle successful update
         console.log("Product updated:", response.data);
         navigate("/");
       })

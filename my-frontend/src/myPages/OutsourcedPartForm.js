@@ -13,9 +13,9 @@ const OutsourcedPartForm = () => {
 
   useEffect(() => {
     if (id) {
-      const fetchParts = () => {
+      const fetchParts = async () => {
         try {
-          const res = axios.get(
+          const res = await axios.get(
             `http://localhost:8080/api/parts/update/${id}`,
             {
               header: {
@@ -31,14 +31,6 @@ const OutsourcedPartForm = () => {
         }
       };
       fetchParts();
-
-      // axios
-      //   .get(`http://localhost:8080/api/parts/update/${id}`, {
-      //     header: {
-      //       "Access-Control-Allow-Origin": "*",
-      //       "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-      //     },
-      //   })
     } else {
       setPart({
         name: "",
