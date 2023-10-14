@@ -25,7 +25,7 @@ const InhousePartForm = () => {
         setPart(res.data);
       })
       .catch((err) => {
-        console.log("Error getting outsourced parts", err);
+        console.log("No inhouse parts", err);
         // handle error
       });
   }, []);
@@ -125,20 +125,20 @@ const InhousePartForm = () => {
           className="form-control mb-4 col-4"
           placeholder="Part Inhouse ID"
           required
-          name="partInhouseId"
+          name="partId"
           type="text"
-          value={part.partInhouseId}
+          value={part.partId}
           onChange={handleInputChange}
         />
 
         {/* Display error messages */}
         <div style={{ color: "red" }}>
           {" "}
-          <ul>
+          {/* <ul>
             {errors.map((error, index) => (
               <li key={index}>{error}</li>
             ))}
-          </ul>
+          </ul> */}
         </div>
 
         <input type="submit" value="Submit" />

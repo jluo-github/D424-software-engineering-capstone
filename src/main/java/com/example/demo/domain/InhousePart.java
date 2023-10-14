@@ -9,20 +9,22 @@ import jakarta.persistence.Entity;
 @Entity
 @DiscriminatorValue("1")
 public class InhousePart extends Part {
-    int partInhouseId;
+  int partId;
 
-    public InhousePart() {
-    }
+  public InhousePart() {
+  }
 
-    public InhousePart(int partInhouseId) {
-        this.partInhouseId = partInhouseId;
-    }
+  public InhousePart(int partId) {
+    this.partId = partId;
+  }
 
-    public int getPartId() {
-        return partInhouseId;
-    }
+  public int getPartId() {
 
-    public void setPartId(int partInhouseId) {
-        this.partInhouseId = partInhouseId;
-    }
+    return partId;
+  }
+
+  public void setPartId(int partId) {
+
+    this.partId = partId;
+  }
 }

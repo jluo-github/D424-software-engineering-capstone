@@ -12,21 +12,43 @@ const OutsourcedPartForm = () => {
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/parts/update/${id}`, {
-        header: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setPart(res.data);
-      })
-      .catch((err) => {
-        console.log("Error getting outsourced parts", err);
-        // handle error
+    if (id) {
+      const fetchParts = () => {
+        try {
+          const res = axios.get(
+            `http://localhost:8080/api/parts/update/${id}`,
+            {
+              header: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods":
+                  "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+              },
+            }
+          );
+          setPart(res.data);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      fetchParts();
+
+      // axios
+      //   .get(`http://localhost:8080/api/parts/update/${id}`, {
+      //     header: {
+      //       "Access-Control-Allow-Origin": "*",
+      //       "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      //     },
+      //   })
+    } else {
+      setPart({
+        name: "",
+        price: "",
+        inv: "",
+        max: "",
+        min: "",
+        companyName: "",
       });
+    }
   }, []);
 
   const handleInputChange = (e) => {
@@ -40,7 +62,7 @@ const OutsourcedPartForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8080/api/outsourcedparts/add", part, {
+      .post("http://localhost:8080/api/outsourcedParts/add", part, {
         header: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -65,7 +87,7 @@ const OutsourcedPartForm = () => {
 
       <form onSubmit={handleSubmit}>
         {/* Add hidden form field to handle update */}
-        <input type="hidden" name="id" />
+        {/* <input type="hidden" name="id" /> */}
 
         <input
           className="form-control mb-4 col-4"
@@ -129,7 +151,14 @@ const OutsourcedPartForm = () => {
 
         {/* Add Error messages */}
         <div style={{ color: "red" }}>
-          <ul>{/* Add logic to display error messages */}</ul>
+          <ul>
+            {" "}
+            {/* <ul>
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul> */}
+          </ul>
         </div>
 
         <input type="submit" value="Submit" />
