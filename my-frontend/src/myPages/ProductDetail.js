@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import PageNav from "../components/PageNav";
+import { computeHeadingLevel } from "@testing-library/react";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const ProductDetail = () => {
             // http://localhost:8080/api/products/update/1
             `http://localhost:8080/api/products/update/${id}`,
             {
-              header: {
+              headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods":
                   "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -45,7 +46,7 @@ const ProductDetail = () => {
             // http://localhost:8080/api/products/update/1
             `http://localhost:8080/api/products/add`,
             {
-              header: {
+              headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods":
                   "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -82,7 +83,7 @@ const ProductDetail = () => {
     e.preventDefault();
     axios
       .post(`http://localhost:8080/api/products/add`, product, {
-        header: {
+        headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
         },
@@ -162,14 +163,41 @@ const ProductDetail = () => {
           </tr>
         </thead>
         <tbody>
-          {availableParts.map((part) => (
-            <tr key={part.id}>
-              <td>{part.name}</td>
-              <td>{part.price}</td>
-              <td>{part.inv}</td>
-              <td>{part.max}</td>
-              <td>{part.min}</td>
-              <td>{/* Add logic to associate part with product */}</td>
+          {availableParts.map((availPart) => (
+            <tr key={availPart.id}>
+              <td>{availPart.name}</td>
+              <td>{availPart.price}</td>
+              <td>{availPart.inv}</td>
+              <td>{availPart.max}</td>
+              <td>{availPart.min}</td>
+              <td>
+                <button
+                  className="btn btn-primary"
+                  onClick={async () => {
+                    try {
+                      const res = await axios.post(
+                        `http://localhost:8080/api/products/${id}/associatepart/${availPart.id}`,
+                        product,
+                        {
+                          headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Methods":
+                              "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                          },
+                        }
+                      );
+                      console.log("Part added to associated:", res.data);
+                      setAssociatedParts([...associatedParts, availPart]);
+                      setAvailableParts(
+                        availableParts.filter((p) => p.id !== availPart.id)
+                      );
+                    } catch (error) {
+                      console.error("Error add part:", error);
+                    }
+                  }}>
+                  Add
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -188,14 +216,42 @@ const ProductDetail = () => {
           </tr>
         </thead>
         <tbody>
-          {associatedParts.map((part) => (
-            <tr key={part.id}>
-              <td>{part.name}</td>
-              <td>{part.price}</td>
-              <td>{part.inv}</td>
-              <td>{part.max}</td>
-              <td>{part.min}</td>
-              <td>{/* Add logic to disassociate part from product */}</td>
+          {associatedParts.map((assoPart) => (
+            <tr key={assoPart.id}>
+              <td>{assoPart.name}</td>
+              <td>{assoPart.price}</td>
+              <td>{assoPart.inv}</td>
+              <td>{assoPart.max}</td>
+              <td>{assoPart.min}</td>
+              <td>
+                {" "}
+                <button
+                  className="btn btn-primary"
+                  onClick={async () => {
+                    try {
+                      const res = await axios.post(
+                        `http://localhost:8080/api/products/${id}/removepart/${assoPart.id}`,
+                        product,
+                        {
+                          headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Methods":
+                              "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                          },
+                        }
+                      );
+                      console.log("Part removed from associated:", res.data);
+                      setAvailableParts([...availableParts, assoPart]);
+                      setAssociatedParts(
+                        associatedParts.filter((p) => p.id !== assoPart.id)
+                      );
+                    } catch (error) {
+                      console.error("Error remove part:", error);
+                    }
+                  }}>
+                  Remove
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

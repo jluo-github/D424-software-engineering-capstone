@@ -55,7 +55,7 @@ const OutsourcedPartForm = () => {
     e.preventDefault();
     axios
       .post("http://localhost:8080/api/outsourcedParts/add", part, {
-        header: {
+        headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
         },

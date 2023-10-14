@@ -19,7 +19,7 @@ const InhousePartForm = () => {
           const res = await axios.get(
             `http://localhost:8080/api/parts/update/${id}`,
             {
-              header: {
+              headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods":
                   "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -57,7 +57,7 @@ const InhousePartForm = () => {
     e.preventDefault();
     axios
       .post("http://localhost:8080/api/inhouseParts/add", part, {
-        header: {
+        headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
         },
