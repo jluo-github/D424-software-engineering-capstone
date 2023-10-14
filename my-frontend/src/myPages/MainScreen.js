@@ -33,23 +33,24 @@ const MainScreen = () => {
   };
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/parts")
-      .then((response) => {
-        setParts(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    axios
-      .get("http://localhost:8080/api/products")
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const fetchParts = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/api/parts");
+        setParts(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchParts();
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/api/products");
+        setProducts(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchProducts();
   }, []);
 
   return (
@@ -134,7 +135,11 @@ const MainScreen = () => {
                   className="btn btn-primary"
                   onClick={() => {
                     if (part.companyName) {
-                      navigate(`/OutsourcedPartForm/${part.id}`);
+                      if (part.id) {
+                        navigate(`/OutsourcedPartForm/${part.id}`);
+                      } else {
+                        navigate(`/OutsourcedPartForm/`);
+                      }
                     } else {
                       navigate(`/InhousePartForm/${part.id}`);
                     }
@@ -144,26 +149,23 @@ const MainScreen = () => {
 
                 <button
                   className="btn btn-primary btn-sm m-3"
-                  onClick={() => {
+                  onClick={async () => {
                     if (
                       window.confirm(
                         "Are you sure you want to delete this part?"
                       )
                     ) {
-                      // Handle delete part logic here by making a DELETE request
-                      axios
-                        .delete(
+                      try {
+                        const res = await axios.delete(
                           `http://localhost:8080/api/parts/delete/${part.id}`
-                        )
-                        .then((response) => {
-                          // Handle successful deletion
-                          console.log("Part deleted:", response.data);
-                          // Optionally, refresh the parts list after deletion
-                          // You can make another GET request to update the 'parts' state
-                        })
-                        .catch((error) => {
-                          console.error("Error deleting part:", error);
-                        });
+                        );
+                        console.log("Part deleted:", res.data);
+                        setParts((parts) =>
+                          parts.filter((item) => item.id !== part.id)
+                        );
+                      } catch (error) {
+                        console.error("Error deleting part:", error);
+                      }
                     }
                   }}>
                   Delete
@@ -171,7 +173,6 @@ const MainScreen = () => {
               </td>
             </tr>
           ))}
-          {/* Repeat the above row for each part */}
         </tbody>
       </table>
 
@@ -223,11 +224,13 @@ const MainScreen = () => {
               <td>{product.price}</td>
               <td>{product.inv}</td>
               <td>
-                <a
+                <button
                   className="btn btn-primary btn-sm m-3"
-                  href={`/ProductDetail?id=${product.id}&name=${product.name}&price=${product.price}&inv=${product.inv}`}>
+                  onClick={() => {
+                    navigate(`/ProductDetail/${product.id}`);
+                  }}>
                   Update
-                </a>
+                </button>
                 <a
                   className="btn btn-primary btn-sm m-3"
                   href={`/buy/${product.id}`}>
@@ -235,26 +238,23 @@ const MainScreen = () => {
                 </a>
                 <button
                   className="btn btn-primary btn-sm m-3"
-                  onClick={() => {
+                  onClick={async () => {
                     if (
                       window.confirm(
                         "Are you sure you want to delete this product?"
                       )
                     ) {
-                      // Handle delete product logic here by making a DELETE request
-                      axios
-                        .delete(
+                      try {
+                        const res = await axios.delete(
                           `http://localhost:8080/api/products/delete/${product.id}`
-                        )
-                        .then((response) => {
-                          // Handle successful deletion
-                          console.log("Product deleted:", response.data);
-                          // Optionally, refresh the products list after deletion
-                          // You can make another GET request to update the 'products' state
-                        })
-                        .catch((error) => {
-                          console.error("Error deleting product:", error);
-                        });
+                        );
+                        console.log("Product deleted:", res.data);
+                        setProducts((products) =>
+                          products.filter((item) => item.id !== product.id)
+                        );
+                      } catch (error) {
+                        console.error("Error deleting product:", error);
+                      }
                     }
                   }}>
                   Delete

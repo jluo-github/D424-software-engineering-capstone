@@ -1,22 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import PageNav from "../components/PageNav";
 
 const ProductDetail = () => {
-  const { productId } = useParams();
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
   const navigate = useNavigate();
+  const { id } = useParams();
+  console.log(id);
 
-  const initialProduct = {
-    id: queryParams.get("id") || "",
-    name: queryParams.get("name") || "",
-    price: queryParams.get("price") || "",
-    inv: queryParams.get("inv") || "",
-  };
-
-  const [product, setProduct] = useState(initialProduct);
+  const [product, setProduct] = useState({});
   const [availableParts, setAvailableParts] = useState([]);
   const [associatedParts, setAssociatedParts] = useState([]);
   const [errors, setErrors] = useState([]);
@@ -26,19 +18,25 @@ const ProductDetail = () => {
   useEffect(() => {
     // Fetch product details and associated parts
     axios
-      .get(`http://localhost:8080/api/products/update/${productId}`)
+      .get(`http://localhost:8080/api/products/update/${id}`, {
+        header: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        },
+      })
       .then((response) => {
         const { product, availparts, parts, assparts } = response.data;
         setProduct(product);
+        console.log(product);
         setAvailableParts(availparts);
         setAssociatedParts(assparts);
         console.log(availparts);
         console.log(assparts);
       })
       .catch((error) => {
-        console.error("Error fetching product details:", error);
+        console.error("No product details:", error);
       });
-  }, [productId]);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -52,16 +50,19 @@ const ProductDetail = () => {
     e.preventDefault();
     // Make a POST request to update the product
     axios
-      .post(`http://localhost:8080/api/products/update/${productId}`, product)
+      .post(`http://localhost:8080/api/products/add`, product, {
+        header: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        },
+      })
       .then((response) => {
         // Handle successful update
         console.log("Product updated:", response.data);
-        // Optionally, you can navigate back to the MainScreen or perform any other actions
         navigate("/");
       })
       .catch((error) => {
         console.error("Error updating product:", error);
-        // Handle errors and update the errors state if needed
         setErrors(["An error occurred while updating the product."]);
       });
   };
@@ -70,12 +71,12 @@ const ProductDetail = () => {
     <div className="container text-center m-5">
       <h1>Product Detail</h1>
       <form onSubmit={handleSubmit}>
-        <input
+        {/* <input
           type="hidden"
           name="id"
           value={product.id}
           onChange={handleInputChange}
-        />
+        /> */}
 
         <input
           type="text"
@@ -108,11 +109,11 @@ const ProductDetail = () => {
         />
 
         <div style={{ color: "red" }}>
-          <ul>
+          {/* <ul>
             {errors.map((error, index) => (
               <li key={index}>{error}</li>
             ))}
-          </ul>
+          </ul> */}
         </div>
 
         <input type="submit" value="Submit" />
