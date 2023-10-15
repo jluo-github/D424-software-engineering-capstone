@@ -12,14 +12,13 @@ const ProductDetail = () => {
   const [product, setProduct] = useState({});
   const [availableParts, setAvailableParts] = useState([]);
   const [associatedParts, setAssociatedParts] = useState([]);
-  const [errors, setErrors] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (id) {
       const fetchProducts = async () => {
         try {
           const res = await axios.get(
-            // http://localhost:8080/api/products/update/1
             `http://localhost:8080/api/products/update/${id}`,
             {
               headers: {
@@ -34,8 +33,17 @@ const ProductDetail = () => {
           setProduct(product);
           setAvailableParts(availparts);
           setAssociatedParts(assparts);
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          if (error.response && error.response.data) {
+            const errorMessage = error.response.data[0].defaultMessage;
+            setError({ errorMessage });
+            console.log("Error updating product:", errorMessage);
+          } else {
+            setError("An error occurred while updating the product.");
+            console.error("An error occurred while updating the product.");
+          }
+
+          console.log(error);
         }
       };
       fetchProducts();
@@ -43,7 +51,6 @@ const ProductDetail = () => {
       const fetchProducts = async () => {
         try {
           const res = await axios.get(
-            // http://localhost:8080/api/products/update/1
             `http://localhost:8080/api/products/add`,
             {
               headers: {
@@ -63,8 +70,17 @@ const ProductDetail = () => {
           });
           setAvailableParts(availparts);
           setAssociatedParts(assparts);
-        } catch (err) {
-          console.log(err);
+        } catch (error) {
+          if (error.response && error.response.data) {
+            const errorMessage = error.response.data[0].defaultMessage;
+            setError({ errorMessage });
+            console.log("Error updating product:", errorMessage);
+          } else {
+            setError("An error occurred while updating the product.");
+            console.error("An error occurred while updating the product.");
+          }
+
+          console.log(error);
         }
       };
       fetchProducts();
@@ -79,23 +95,34 @@ const ProductDetail = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post(`http://localhost:8080/api/products/add`, product, {
+    try {
+      // const endpoint = id
+      //   ? `http://localhost:8080/api/products/update/${id}`
+      //   : "http://localhost:8080/api/products/add";
+      const endpoint = "http://localhost:8080/api/products/add";
+
+      const res = await axios.post(endpoint, product, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
         },
-      })
-      .then((response) => {
-        console.log("Product updated:", response.data);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Error updating product:", error);
-        setErrors(["An error occurred while updating the product."]);
       });
+      console.log("Product updated:", res.data);
+      navigate("/");
+    } catch (error) {
+      if (error.response && error.response.data) {
+        const errorMessage = error.response.data[0].defaultMessage;
+        setError({ errorMessage });
+        console.log("Error updating product:", errorMessage);
+      } else {
+        setError("An error occurred while updating the product.");
+        console.error("An error occurred while updating the product.");
+      }
+
+      console.log(error);
+    }
   };
 
   return (
@@ -130,7 +157,7 @@ const ProductDetail = () => {
         />
 
         <input
-          type="text"
+          type={product.id ? "text" : "hidden"}
           name="inv"
           placeholder="Inventory"
           required
@@ -140,6 +167,7 @@ const ProductDetail = () => {
         />
 
         <div style={{ color: "red" }}>
+          {error.errorMessage ? <p>{error.errorMessage}</p> : null}
           {/* <ul>
             {errors.map((error, index) => (
               <li key={index}>{error}</li>
@@ -186,7 +214,7 @@ const ProductDetail = () => {
                           },
                         }
                       );
-                      console.log("Part added to associated:", res.data);
+                      alert("Part added to associated:", res.data);
                       setAssociatedParts([...associatedParts, availPart]);
                       setAvailableParts(
                         availableParts.filter((p) => p.id !== availPart.id)
@@ -240,7 +268,7 @@ const ProductDetail = () => {
                           },
                         }
                       );
-                      console.log("Part removed from associated:", res.data);
+                      alert("Part removed from associated:", res.data);
                       setAvailableParts([...availableParts, assoPart]);
                       setAssociatedParts(
                         associatedParts.filter((p) => p.id !== assoPart.id)

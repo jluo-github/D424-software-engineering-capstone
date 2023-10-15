@@ -56,15 +56,14 @@ public class AddProductController {
 
 
   @PostMapping("/add")
-  public ResponseEntity<String> addProduct(@Valid @RequestBody Product product, BindingResult bindingResult) {
+  public ResponseEntity<?> addProduct(@Valid @RequestBody Product product, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
-      return ResponseEntity.badRequest().body("Validation failed");
+      return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
     }
 
     if (product.getId() != 0) {
       Product existingProduct = productService.findById((int) product.getId());
-
-      if (product.getInv() - existingProduct.getInv() > 0) {
+      if (product.getInv() - existingProduct.getInv() > 0 || product.getInv() - existingProduct.getInv() == 0) {
         for (Part p : existingProduct.getParts()) {
           int inv = p.getInv();
           p.setInv(inv - (product.getInv() - existingProduct.getInv()));
@@ -76,14 +75,12 @@ public class AddProductController {
     }
 
     productService.save(product);
-
     return ResponseEntity.ok("Product added successfully");
   }
 
   @GetMapping("/update/{productID}")
   public ResponseEntity<Map<String, Object>> showProductFormForUpdate(@PathVariable("productID") int theId) {
     Map<String, Object> response = new HashMap<>();
-
     List<Part> allParts = partService.findAll();
     Product theProduct = productService.findById(theId);
 
@@ -97,9 +94,26 @@ public class AddProductController {
         availParts.add(p);
       }
     }
-
     response.put("availparts", availParts);
+    return ResponseEntity.ok(response);
+  }
 
+  @PostMapping("/update/{productID}")
+  public ResponseEntity<?> updateProductForm(@PathVariable("productID") int theId) {
+    Map<String, Object> response = new HashMap<>();
+    List<Part> allParts = partService.findAll();
+    Product theProduct = productService.findById(theId);
+    response.put("parts", allParts);
+    response.put("product", theProduct);
+    response.put("assparts", theProduct.getParts());
+
+    List<Part> availParts = new ArrayList<>();
+    for (Part p : allParts) {
+      if (!theProduct.getParts().contains(p)) {
+        availParts.add(p);
+      }
+    }
+    response.put("availparts", availParts);
     return ResponseEntity.ok(response);
   }
 
