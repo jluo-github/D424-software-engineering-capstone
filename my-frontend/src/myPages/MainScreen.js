@@ -56,6 +56,60 @@ const MainScreen = () => {
     fetchProducts();
   }, []);
 
+  const searchParts = async (term) => {
+    try {
+      const res = await axios.get(`http://localhost:8080/api/parts`, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        },
+        params: {
+          partKeyword: term,
+        },
+      });
+      setParts(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const clearSearchParts = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/api/parts");
+      setPartKeyword("");
+      setParts(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const searchProducts = async (term) => {
+    try {
+      const res = await axios.get(`http://localhost:8080/api/products`, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        },
+        params: {
+          productKeyword: term,
+        },
+      });
+      setProducts(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const clearSearchProducts = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/api/products");
+      setProductKeyword("");
+      setProducts(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="container m-5">
       <PageNav />
@@ -77,11 +131,11 @@ const MainScreen = () => {
       {/* Parts Search form:  */}
       <div className="text-center">
         <h2>Parts</h2>
-        <form action="/">
+        <form>
           Filter:
           <input
-            id="partkeyword"
-            name="partkeyword"
+            id="partKeyword"
+            name="partKeyword"
             required
             size="50"
             value={partKeyword}
@@ -89,15 +143,29 @@ const MainScreen = () => {
             type="text"
           />
           &nbsp;
-          <input type="submit" value="Search" />
+          {/* Search parts button:  */}
+          <button
+            className="btn btn-primary btn-sm mb-3"
+            onClick={(e) => {
+              e.preventDefault();
+              console.log("partKeyword:", partKeyword);
+              searchParts(partKeyword);
+            }}>
+            Search
+          </button>
           &nbsp;
-          <input
-            id="btnClearPart"
-            onClick={() => setPartKeyword("")}
-            type="button"
-            value="Clear"
-          />
+          {/* Clear search parts button:  */}
+          <button
+            className="btn btn-primary btn-sm mb-3"
+            onClick={(e) => {
+              e.preventDefault();
+              clearSearchParts();
+            }}>
+            Clear
+          </button>
         </form>
+
+        {/* Add Part buttons:  */}
         <br />
         <br />
         <button
@@ -193,14 +261,14 @@ const MainScreen = () => {
         </div>
       </table>
 
-      {/* Products search: */}
+      {/* Products search form: */}
       <div className="text-center m-5">
         <h2>Products</h2>
-        <form action="/">
+        <form>
           Filter:
           <input
-            id="productkeyword"
-            name="productkeyword"
+            id="productKeyword"
+            name="productKeyword"
             required
             size="50"
             value={productKeyword}
@@ -208,14 +276,26 @@ const MainScreen = () => {
             type="text"
           />
           &nbsp;
-          <input type="submit" value="Search" />
+          {/* Search products button: */}
+          <button
+            className="btn btn-primary btn-sm mb-3"
+            onClick={(e) => {
+              e.preventDefault();
+              console.log("partKeyword:", productKeyword);
+              searchProducts(productKeyword);
+            }}>
+            Search
+          </button>
           &nbsp;
-          <input
-            id="btnClearProduct"
-            onClick={() => setProductKeyword("")}
-            type="button"
-            value="Clear"
-          />
+          {/* Clear search products button: */}
+          <button
+            className="btn btn-primary btn-sm mb-3"
+            onClick={(e) => {
+              e.preventDefault();
+              clearSearchProducts();
+            }}>
+            Clear
+          </button>
         </form>
         <br />
         <br />
