@@ -110,6 +110,14 @@ const MainScreen = () => {
     }
   };
 
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      setError("");
+      setErrorBuy("");
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }, [error, errorBuy]);
+
   return (
     <div className="container m-5">
       <PageNav />
@@ -127,7 +135,6 @@ const MainScreen = () => {
         </div>
       </div>
       <hr />
-
       {/* Parts Search form:  */}
       <div className="text-center">
         <h2>Parts</h2>
@@ -179,7 +186,6 @@ const MainScreen = () => {
           Add Outsourced Part
         </button>
       </div>
-
       {/* Parts Table */}
       <table className="table table-bordered table-striped m-3 text-center align-middle">
         <thead className="thead-dark">
@@ -237,10 +243,8 @@ const MainScreen = () => {
                           parts.filter((item) => item.id !== part.id)
                         );
                       } catch (error) {
-                        if (error.response.data === "Validation failed") {
-                          setError(
-                            "Part cannot be deleted due to existing associations with products!!"
-                          );
+                        if (error.response.data) {
+                          setError(error.response.data);
                           console.log(
                             "1-Part cannot be deleted due to existing associations with products!!"
                           );
@@ -260,11 +264,8 @@ const MainScreen = () => {
             </tr>
           ))}
         </tbody>
-        <div style={{ color: "red" }}>
-          <p>{error}</p>{" "}
-        </div>
-      </table>
-
+      </table>{" "}
+      <div style={{ color: "red" }}>{error && <p>{error}</p>}</div>
       {/* Products search form: */}
       <div className="text-center m-5">
         <h2>Products</h2>
@@ -307,7 +308,6 @@ const MainScreen = () => {
           Add Product
         </a>
       </div>
-
       {/* Products Table */}
       <table className="table table-bordered table-striped m-3 text-center align-middle">
         <thead className="thead-dark">
@@ -401,10 +401,8 @@ const MainScreen = () => {
             </tr>
           ))}
         </tbody>
-        <div style={{ color: "red" }}>
-          <p>{errorBuy}</p>{" "}
-        </div>
-      </table>
+      </table>{" "}
+      <div style={{ color: "red" }}>{errorBuy && <p>{errorBuy}</p>}</div>
     </div>
   );
 };

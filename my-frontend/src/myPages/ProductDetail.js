@@ -119,6 +119,15 @@ const ProductDetail = () => {
     }
   };
 
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      setError("");
+    }, 3000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [error]);
+
   return (
     <div className="container text-center m-5">
       {/* Product detail form:  */}
@@ -192,6 +201,7 @@ const ProductDetail = () => {
               <td>{availPart.max}</td>
               <td>{availPart.min}</td>
               <td>
+                {/* add available parts button:  */}
                 <button
                   className="btn btn-primary"
                   onClick={async () => {
@@ -227,8 +237,6 @@ const ProductDetail = () => {
                           "Please save product before adding parts!"
                         );
                       }
-
-                      console.error(error);
                     }
                   }}>
                   Add
@@ -237,7 +245,6 @@ const ProductDetail = () => {
             </tr>
           ))}
         </tbody>
-        {/* <p>{error}</p> */}
       </table>
 
       {/* Associated parts List:  */}
@@ -262,7 +269,7 @@ const ProductDetail = () => {
               <td>{assoPart.max}</td>
               <td>{assoPart.min}</td>
               <td>
-                {" "}
+                {/* remove associated parts button:  */}
                 <button
                   className="btn btn-primary"
                   onClick={async () => {
@@ -294,13 +301,15 @@ const ProductDetail = () => {
         </tbody>
       </table>
 
-      <footer>
+      {/* <footer>
+        {!error} && (
         <Link to="/">
           <button className="btn btn-primary btn-sm m-5">
             Back to Main Screen
           </button>
         </Link>
-      </footer>
+        )
+      </footer> */}
     </div>
   );
 };

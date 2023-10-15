@@ -82,6 +82,13 @@ const OutsourcedPartForm = () => {
     }
   };
 
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      setError("");
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }, [error]);
+
   return (
     <div className="container text-center m-5">
       <h1>Outsourced Part Detail</h1>
@@ -150,14 +157,12 @@ const OutsourcedPartForm = () => {
           onChange={handleInputChange}
         />
 
-        <div style={{ color: "red" }}>
-          <p>{error}</p>
-        </div>
-
         <button className="btn btn-primary btn-sm mb-3" type="submit">
           Submit
         </button>
       </form>
+
+      <div style={{ color: "red" }}>{error && <p>{error}</p>}</div>
 
       <footer>
         <Link to="/">
