@@ -132,7 +132,7 @@ const MainScreen = () => {
             <h1>PurpleCat PC Store</h1>
           </div>
           <div className="col m-3">
-            <a className="btn btn-primary btn-sm me-3 m-auto" href="/about">
+            <a className="btn btn-primary me-3 m-auto" href="/about">
               About
             </a>
           </div>

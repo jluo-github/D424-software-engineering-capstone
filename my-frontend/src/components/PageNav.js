@@ -9,13 +9,13 @@ const PageNav = () => {
           <NavLink to="/">Home</NavLink>
         </li>
         <li>
-          <NavLink to="/InhousePartForm">InhousePartForm</NavLink>
+          <NavLink to="/InhousePartForm">Add Inhouse Part</NavLink>
         </li>
         <li>
-          <NavLink to="/OutsourcedPartForm">OutsourcedPartForm</NavLink>
+          <NavLink to="/OutsourcedPartForm">Add Outsourced Part</NavLink>
         </li>
         <li>
-          <NavLink to="/ProductDetail">ProductDetail</NavLink>
+          <NavLink to="/ProductDetail">Add Product</NavLink>
         </li>
         <li>
           <NavLink to="/about">About</NavLink>

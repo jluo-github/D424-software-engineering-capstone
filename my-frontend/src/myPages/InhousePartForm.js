@@ -163,7 +163,7 @@ const InhousePartForm = () => {
         />
 
         <button className="btn btn-primary m-3" type="submit">
-          Submit
+          {!part.id ? "Add" : "Update"}
         </button>
       </form>
 

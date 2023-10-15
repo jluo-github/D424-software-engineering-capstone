@@ -185,8 +185,7 @@ const ProductDetail = () => {
             onClick={() => {
               navigate(`/`);
             }}>
-            {" "}
-            Cancel{" "}
+            Back to Main Screen
           </button>
         )}
       </form>

@@ -1,6 +1,6 @@
 import React from "react";
 import "../custom.scss";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const About = () => {
   return (
     <div className="container m-5 text-center">
@@ -15,9 +15,7 @@ const About = () => {
       </p>
       <footer>
         <Link to="/">
-          <button className="btn btn-primary btn-sm m-5">
-            Back to Main Screen
-          </button>
+          <button className="btn btn-primary m-5">Back to Main Screen</button>
         </Link>
       </footer>
     </div>
