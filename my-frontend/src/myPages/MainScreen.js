@@ -35,6 +35,10 @@ const MainScreen = () => {
     navigate("/OutsourcedPartForm");
   };
 
+  const handleAddProduct = () => {
+    navigate("/ProductDetail");
+  };
+
   useEffect(() => {
     const fetchParts = async () => {
       try {
@@ -137,9 +141,9 @@ const MainScreen = () => {
       <hr />
       {/* Parts Search form:  */}
       <div className="text-center">
-        <h2>Parts</h2>
+        <h2 className="m-5">Parts</h2>
         <form>
-          Filter:
+          Filter :
           <input
             id="partKeyword"
             name="partKeyword"
@@ -152,7 +156,7 @@ const MainScreen = () => {
           &nbsp;
           {/* Search parts button:  */}
           <button
-            className="btn btn-primary btn-sm mb-3"
+            className="btn btn-primary m-3"
             onClick={(e) => {
               e.preventDefault();
               console.log("partKeyword:", partKeyword);
@@ -163,7 +167,7 @@ const MainScreen = () => {
           &nbsp;
           {/* Clear search parts button:  */}
           <button
-            className="btn btn-primary btn-sm mb-3"
+            className="btn btn-primary  m-3"
             onClick={(e) => {
               e.preventDefault();
               clearSearchParts();
@@ -175,14 +179,11 @@ const MainScreen = () => {
         {/* Add Part button:  */}
         <br />
         <br />
-        <button
-          className="btn btn-primary btn-sm mb-3"
-          onClick={handleInhousePart}>
+        <button className="btn btn-primary m-3" onClick={handleInhousePart}>
           Add Inhouse Part
         </button>
-        <button
-          className="btn btn-primary btn-sm mb-3"
-          onClick={handleOutsourcedPart}>
+
+        <button className="btn btn-primary m-3" onClick={handleOutsourcedPart}>
           Add Outsourced Part
         </button>
       </div>
@@ -209,7 +210,7 @@ const MainScreen = () => {
               <td>
                 {/* part update button:  */}
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary m-3"
                   onClick={() => {
                     if (part.companyName) {
                       if (part.id) {
@@ -226,7 +227,7 @@ const MainScreen = () => {
 
                 {/* part delete button:  */}
                 <button
-                  className="btn btn-primary btn-sm m-3"
+                  className="btn btn-primary m-3"
                   onClick={async () => {
                     if (
                       window.confirm(
@@ -268,7 +269,7 @@ const MainScreen = () => {
       <div style={{ color: "red" }}>{error && <p>{error}</p>}</div>
       {/* Products search form: */}
       <div className="text-center m-5">
-        <h2>Products</h2>
+        <h2 className="m-5">Products</h2>
         <form>
           Filter:
           <input
@@ -283,7 +284,7 @@ const MainScreen = () => {
           &nbsp;
           {/* Search products button: */}
           <button
-            className="btn btn-primary btn-sm mb-3"
+            className="btn btn-primary  m-3"
             onClick={(e) => {
               e.preventDefault();
               console.log("partKeyword:", productKeyword);
@@ -294,7 +295,7 @@ const MainScreen = () => {
           &nbsp;
           {/* Clear search products button: */}
           <button
-            className="btn btn-primary btn-sm mb-3"
+            className="btn btn-primary m-3"
             onClick={(e) => {
               e.preventDefault();
               clearSearchProducts();
@@ -304,9 +305,9 @@ const MainScreen = () => {
         </form>
         <br />
         <br />
-        <a className="btn btn-primary btn-sm mb-3" href="/ProductDetail">
+        <button className="btn btn-primary m-3" onClick={handleAddProduct}>
           Add Product
-        </a>
+        </button>
       </div>
       {/* Products Table */}
       <table className="table table-bordered table-striped m-3 text-center align-middle">
@@ -327,7 +328,7 @@ const MainScreen = () => {
               <td>
                 {/* Products Update button */}
                 <button
-                  className="btn btn-primary btn-sm m-3"
+                  className="btn btn-primary m-3"
                   onClick={() => {
                     navigate(`/ProductDetail/${product.id}`);
                   }}>
@@ -336,7 +337,7 @@ const MainScreen = () => {
 
                 {/* Products Buy button */}
                 <button
-                  className="btn btn-primary btn-sm m-3"
+                  className="btn btn-primary m-3"
                   onClick={async () => {
                     try {
                       const res = await axios.post(
@@ -375,7 +376,7 @@ const MainScreen = () => {
 
                 {/* Products Delete button */}
                 <button
-                  className="btn btn-primary btn-sm m-3"
+                  className="btn btn-primary  m-3"
                   onClick={async () => {
                     if (
                       window.confirm(

@@ -93,7 +93,7 @@ const InhousePartForm = () => {
 
   return (
     <div className="container text-center m-5">
-      <h1 className="m-3">Inhouse Part Detail</h1>
+      <h1 className="m-5">Inhouse Part Detail</h1>
 
       <form onSubmit={handleSubmit}>
         {/* <input
@@ -162,7 +162,7 @@ const InhousePartForm = () => {
           onChange={handleInputChange}
         />
 
-        <button className="btn btn-primary btn-sm mb-3" type="submit">
+        <button className="btn btn-primary m-3" type="submit">
           Submit
         </button>
       </form>
@@ -171,9 +171,7 @@ const InhousePartForm = () => {
 
       <footer>
         <Link to="/">
-          <button className="btn btn-primary btn-sm m-5">
-            Back to Main Screen
-          </button>
+          <button className="btn btn-primary  m-5">Back to Main Screen</button>
         </Link>
       </footer>
     </div>

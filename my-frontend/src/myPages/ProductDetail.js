@@ -131,7 +131,7 @@ const ProductDetail = () => {
   return (
     <div className="container text-center m-5">
       {/* Product detail form:  */}
-      <h1>Product Detail</h1>
+      <h1 className="m-5">Product Detail</h1>
       <form onSubmit={handleSubmit}>
         {/* <input
           type="hidden"
@@ -174,13 +174,25 @@ const ProductDetail = () => {
           {error.errorMessage ? <p>{error.errorMessage}</p> : null}
         </div>
 
-        <button className="btn btn-primary btn-sm mb-3" type="submit">
-          Submit
+        <button className="btn btn-primary m-3" type="submit">
+          {!product.id ? "Add" : "Update"}
         </button>
+
+        {!product.id && (
+          <button
+            type="button"
+            className="btn btn-primary  m-3"
+            onClick={() => {
+              navigate(`/`);
+            }}>
+            {" "}
+            Cancel{" "}
+          </button>
+        )}
       </form>
 
       {/* Available parts List:  */}
-      <h2>Available Parts</h2>
+      <h2 className="m-5">Available Parts</h2>
       <table className="table table-bordered table-striped align-middle">
         <thead className="thead-dark">
           <tr>
@@ -203,7 +215,7 @@ const ProductDetail = () => {
               <td>
                 {/* add available parts button:  */}
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary m-3"
                   onClick={async () => {
                     try {
                       const res = await axios.post(
@@ -248,7 +260,7 @@ const ProductDetail = () => {
       </table>
 
       {/* Associated parts List:  */}
-      <h2>Associated Parts</h2>
+      <h2 className="m-5">Associated Parts</h2>
       <table className="table table-bordered table-striped align-middle">
         <thead className="thead-dark">
           <tr>
@@ -271,7 +283,7 @@ const ProductDetail = () => {
               <td>
                 {/* remove associated parts button:  */}
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary m-3"
                   onClick={async () => {
                     try {
                       const res = await axios.post(
