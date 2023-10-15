@@ -70,8 +70,17 @@ const InhousePartForm = () => {
       setPart(res.data);
       navigate("/");
     } catch (error) {
-      setError("Inventory must be between or at the Max and Min value!!!");
-      console.error("Error:", error);
+      if (error.response.data === "Validation failed") {
+        setError("Inventory must be between or at the Max and Min value!!");
+        console.log(
+          "1-Inventory must be between or at the Max and Min value!!!"
+        );
+      } else {
+        setError("Error adding the part.");
+        console.log(
+          "2-Inventory must be between or at the Max and Min value!!!"
+        );
+      }
     }
   };
 
@@ -150,7 +159,9 @@ const InhousePartForm = () => {
           <p>{error}</p>{" "}
         </div>
 
-        <input type="submit" value="Submit" />
+        <button className="btn btn-primary btn-sm mb-3" type="submit">
+          Submit
+        </button>
       </form>
 
       <footer>

@@ -28,7 +28,6 @@ const ProductDetail = () => {
               },
             }
           );
-          console.log(res.data);
           const { product, availparts, parts, assparts } = res.data;
           setProduct(product);
           setAvailableParts(availparts);
@@ -37,13 +36,11 @@ const ProductDetail = () => {
           if (error.response && error.response.data) {
             const errorMessage = error.response.data[0].defaultMessage;
             setError({ errorMessage });
-            console.log("Error updating product:", errorMessage);
+            console.log("1-Error updating product:", errorMessage);
           } else {
             setError("An error occurred while updating the product.");
-            console.error("An error occurred while updating the product.");
+            console.error("2-An error occurred while updating the product.");
           }
-
-          console.log(error);
         }
       };
       fetchProducts();
@@ -60,7 +57,6 @@ const ProductDetail = () => {
               },
             }
           );
-          console.log(res.data);
           const { product, availparts, parts, assparts } = res.data;
           // setProduct(product);
           setProduct({
@@ -74,10 +70,10 @@ const ProductDetail = () => {
           if (error.response && error.response.data) {
             const errorMessage = error.response.data[0].defaultMessage;
             setError({ errorMessage });
-            console.log("Error updating product:", errorMessage);
+            console.log("1-Error updating product:", errorMessage);
           } else {
             setError("An error occurred while updating the product.");
-            console.error("An error occurred while updating the product.");
+            console.error("2-An error occurred while updating the product.");
           }
 
           console.log(error);
@@ -115,13 +111,11 @@ const ProductDetail = () => {
       if (error.response && error.response.data) {
         const errorMessage = error.response.data[0].defaultMessage;
         setError({ errorMessage });
-        console.log("Error updating product:", errorMessage);
+        console.log("1-Error updating product:", errorMessage);
       } else {
         setError("An error occurred while updating the product.");
-        console.error("An error occurred while updating the product.");
+        console.error("2-An error occurred while updating the product.");
       }
-
-      console.log(error);
     }
   };
 
@@ -169,14 +163,11 @@ const ProductDetail = () => {
 
         <div style={{ color: "red" }}>
           {error.errorMessage ? <p>{error.errorMessage}</p> : null}
-          {/* <ul>
-            {errors.map((error, index) => (
-              <li key={index}>{error}</li>
-            ))}
-          </ul> */}
         </div>
 
-        <input type="submit" value="Submit" />
+        <button className="btn btn-primary btn-sm mb-3" type="submit">
+          Submit
+        </button>
       </form>
 
       {/* Available parts List:  */}

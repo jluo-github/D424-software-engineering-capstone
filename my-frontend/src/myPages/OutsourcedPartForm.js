@@ -9,7 +9,7 @@ const OutsourcedPartForm = () => {
   console.log(id);
 
   const [part, setPart] = useState({});
-  const [errors, setErrors] = useState([]);
+  const [error, setError] = useState([]);
 
   useEffect(() => {
     if (id) {
@@ -18,7 +18,7 @@ const OutsourcedPartForm = () => {
           const res = await axios.get(
             `http://localhost:8080/api/parts/update/${id}`,
             {
-              header: {
+              headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods":
                   "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -51,26 +51,35 @@ const OutsourcedPartForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:8080/api/outsourcedParts/add", part, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-        },
-      })
-      .then((response) => {
-        console.log("Part added:", response.data);
-        navigate("/");
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 400) {
-          setErrors(error.response.data);
-        } else {
-          console.error("Error adding part:", error);
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/api/outsourcedParts/add",
+        part,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          },
         }
-      });
+      );
+      console.log("Part added:", res.data);
+      setPart(res.data);
+      navigate("/");
+    } catch (error) {
+      if (error.response.data === "Validation failed") {
+        setError("Inventory must be between or at the Max and Min value!!");
+        console.log(
+          "1-Inventory must be between or at the Max and Min value!!!"
+        );
+      } else {
+        setError("Error adding the part.");
+        console.log(
+          "2-Inventory must be between or at the Max and Min value!!!"
+        );
+      }
+    }
   };
 
   return (
@@ -141,19 +150,13 @@ const OutsourcedPartForm = () => {
           onChange={handleInputChange}
         />
 
-        {/* Add Error messages */}
         <div style={{ color: "red" }}>
-          <ul>
-            {" "}
-            {/* <ul>
-              {errors.map((error, index) => (
-                <li key={index}>{error}</li>
-              ))}
-            </ul> */}
-          </ul>
+          <p>{error}</p>
         </div>
 
-        <input type="submit" value="Submit" />
+        <button className="btn btn-primary btn-sm mb-3" type="submit">
+          Submit
+        </button>
       </form>
 
       <footer>

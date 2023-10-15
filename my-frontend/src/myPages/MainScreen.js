@@ -165,7 +165,7 @@ const MainScreen = () => {
           </button>
         </form>
 
-        {/* Add Part buttons:  */}
+        {/* Add Part button:  */}
         <br />
         <br />
         <button
@@ -231,19 +231,23 @@ const MainScreen = () => {
                         const res = await axios.delete(
                           `http://localhost:8080/api/parts/delete/${part.id}`
                         );
+
                         console.log("Part deleted:", res.data);
                         setParts((parts) =>
                           parts.filter((item) => item.id !== part.id)
                         );
                       } catch (error) {
-                        if (error.response & error.response.data) {
-                          setError(error.response.data);
-                        } else {
+                        if (error.response.data === "Validation failed") {
                           setError(
                             "Part cannot be deleted due to existing associations with products!!"
                           );
+                          console.log(
+                            "1-Part cannot be deleted due to existing associations with products!!"
+                          );
+                        } else {
+                          setError("Error deleting the part.");
                           alert(
-                            "Part cannot be deleted due to existing associations with products!!"
+                            "2-Part cannot be deleted due to existing associations with products!!"
                           );
                         }
                         console.error("Error deleting part:", error);
