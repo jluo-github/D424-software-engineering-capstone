@@ -127,6 +127,7 @@ const ProductDetail = () => {
 
   return (
     <div className="container text-center m-5">
+      {/* Product detail form:  */}
       <h1>Product Detail</h1>
       <form onSubmit={handleSubmit}>
         {/* <input
@@ -178,6 +179,7 @@ const ProductDetail = () => {
         <input type="submit" value="Submit" />
       </form>
 
+      {/* Available parts List:  */}
       <h2>Available Parts</h2>
       <table className="table table-bordered table-striped align-middle">
         <thead className="thead-dark">
@@ -214,13 +216,28 @@ const ProductDetail = () => {
                           },
                         }
                       );
-                      alert("Part added to associated:", res.data);
+
                       setAssociatedParts([...associatedParts, availPart]);
                       setAvailableParts(
                         availableParts.filter((p) => p.id !== availPart.id)
                       );
                     } catch (error) {
-                      console.error("Error add part:", error);
+                      if (error.response & error.response.data) {
+                        const errorMessage = error.response.data.message;
+                        setError({ errorMessage });
+                      } else {
+                        setError(
+                          "Please add and save product before adding parts!"
+                        );
+                        alert(
+                          "Please add and save product before adding parts!"
+                        );
+                        console.error(
+                          "Please save product before adding parts!"
+                        );
+                      }
+
+                      console.error(error);
                     }
                   }}>
                   Add
@@ -229,8 +246,10 @@ const ProductDetail = () => {
             </tr>
           ))}
         </tbody>
+        {/* <p>{error}</p> */}
       </table>
 
+      {/* Associated parts List:  */}
       <h2>Associated Parts</h2>
       <table className="table table-bordered table-striped align-middle">
         <thead className="thead-dark">
@@ -268,7 +287,6 @@ const ProductDetail = () => {
                           },
                         }
                       );
-                      alert("Part removed from associated:", res.data);
                       setAvailableParts([...availableParts, assoPart]);
                       setAssociatedParts(
                         associatedParts.filter((p) => p.id !== assoPart.id)

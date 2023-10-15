@@ -15,6 +15,9 @@ const MainScreen = () => {
   const [productKeyword, setProductKeyword] = useState("");
   const [parts, setParts] = useState([]);
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [errorBuy, setErrorBuy] = useState("");
 
   const handlePartInputChange = (e) => {
     setPartKeyword(e.target.value);
@@ -71,7 +74,7 @@ const MainScreen = () => {
       </div>
       <hr />
 
-      {/* Parts */}
+      {/* Parts Search form:  */}
       <div className="text-center">
         <h2>Parts</h2>
         <form action="/">
@@ -122,7 +125,6 @@ const MainScreen = () => {
           </tr>
         </thead>
         <tbody>
-          {/* Replace the following with a mapping of part data */}
           {parts.map((part) => (
             <tr key={part.id}>
               <td>{part.name}</td>
@@ -131,6 +133,7 @@ const MainScreen = () => {
               <td>{part.max}</td>
               <td>{part.min}</td>
               <td>
+                {/* part update button:  */}
                 <button
                   className="btn btn-primary"
                   onClick={() => {
@@ -147,6 +150,7 @@ const MainScreen = () => {
                   Update
                 </button>
 
+                {/* part delete button:  */}
                 <button
                   className="btn btn-primary btn-sm m-3"
                   onClick={async () => {
@@ -164,6 +168,16 @@ const MainScreen = () => {
                           parts.filter((item) => item.id !== part.id)
                         );
                       } catch (error) {
+                        if (error.response & error.response.data) {
+                          setError(error.response.data);
+                        } else {
+                          setError(
+                            "Part cannot be deleted due to existing associations with products!!"
+                          );
+                          alert(
+                            "Part cannot be deleted due to existing associations with products!!"
+                          );
+                        }
                         console.error("Error deleting part:", error);
                       }
                     }
@@ -174,9 +188,12 @@ const MainScreen = () => {
             </tr>
           ))}
         </tbody>
+        <div style={{ color: "red" }}>
+          <p>{error}</p>{" "}
+        </div>
       </table>
 
-      {/* Products */}
+      {/* Products search: */}
       <div className="text-center m-5">
         <h2>Products</h2>
         <form action="/">
@@ -224,8 +241,7 @@ const MainScreen = () => {
               <td>{product.price}</td>
               <td>{product.inv}</td>
               <td>
-                {/*  Update button */}
-
+                {/* Products Update button */}
                 <button
                   className="btn btn-primary btn-sm m-3"
                   onClick={() => {
@@ -234,23 +250,46 @@ const MainScreen = () => {
                   Update
                 </button>
 
-                {/*  Buy button */}
-
+                {/* Products Buy button */}
                 <button
                   className="btn btn-primary btn-sm m-3"
-                  onClick={() => {
-                    if (product.inv > 0) {
-                      navigate(`/ProductDetail/${product.id}`);
-                    } else {
-                      alert("Please select a product with enough inventory ");
-                      navigate(`/`);
+                  onClick={async () => {
+                    try {
+                      const res = await axios.post(
+                        `http://localhost:8080/api/products/buy/${product.id}`,
+                        {
+                          headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Methods":
+                              "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                          },
+                        }
+                      );
+                      const updatedProducts = [...products];
+                      const productIndex = updatedProducts.findIndex(
+                        (p) => p.id === product.id
+                      );
+
+                      if (productIndex !== -1) {
+                        updatedProducts[productIndex] = {
+                          ...updatedProducts[productIndex],
+                          inv: updatedProducts[productIndex].inv - 1,
+                        };
+                        setProducts(updatedProducts);
+                      }
+                      console.log("Product bought:", res.data);
+                      alert("Product added successfully");
+                      navigate("/");
+                    } catch (error) {
+                      setErrorBuy(
+                        "Purchase unsuccessful, product is out of stock!"
+                      );
                     }
                   }}>
                   Buy Now
                 </button>
 
-                {/*  Delete button */}
-
+                {/* Products Delete button */}
                 <button
                   className="btn btn-primary btn-sm m-3"
                   onClick={async () => {
@@ -278,6 +317,9 @@ const MainScreen = () => {
             </tr>
           ))}
         </tbody>
+        <div style={{ color: "red" }}>
+          <p>{errorBuy}</p>{" "}
+        </div>
       </table>
     </div>
   );

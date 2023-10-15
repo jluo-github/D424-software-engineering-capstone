@@ -10,7 +10,7 @@ const InhousePartForm = () => {
 
   const [part, setPart] = useState({});
   // const { name, price, inv, max, min, partInhouseId } = part;
-  const [errors, setErrors] = useState([]);
+  const [error, setError] = useState();
 
   useEffect(() => {
     if (id) {
@@ -53,26 +53,26 @@ const InhousePartForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:8080/api/inhouseParts/add", part, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-        },
-      })
-      .then((response) => {
-        console.log("Part added:", response.data);
-        navigate("/");
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 400) {
-          setErrors(error.response.data);
-        } else {
-          console.error("Error adding part:", error);
+    try {
+      const res = await axios.post(
+        `http://localhost:8080/api/inhouseParts/add`,
+        part,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          },
         }
-      });
+      );
+      console.log("Part added:", res.data);
+      setPart(res.data);
+      navigate("/");
+    } catch (error) {
+      setError("Inventory must be between or at the Max and Min value!!!");
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -146,14 +146,8 @@ const InhousePartForm = () => {
           onChange={handleInputChange}
         />
 
-        {/* Display error messages */}
         <div style={{ color: "red" }}>
-          {" "}
-          {/* <ul>
-            {errors.map((error, index) => (
-              <li key={index}>{error}</li>
-            ))}
-          </ul> */}
+          <p>{error}</p>{" "}
         </div>
 
         <input type="submit" value="Submit" />

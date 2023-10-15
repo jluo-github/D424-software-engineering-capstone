@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidProductPrice {
-  String message() default "Price of the product must be greater than the sum of the price of the parts.";
+  String message() default "Price of the product must be greater than the sum of the price of the parts!";
 
   Class<?>[] groups() default {};
 
