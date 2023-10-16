@@ -8,6 +8,7 @@ import ProductDetail from "./myPages/ProductDetail";
 import About from "./myPages/About";
 import PageNotFound from "./myPages/PageNotFound";
 import Parts from "./myPages/Parts";
+import Login from "./myPages/Login";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -16,6 +17,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" exact element={<MainScreen />} />
+        <Route path="login" element={<Login />} />
         <Route path="parts" element={<MainScreen />} />
         <Route path="parts/:id" element={<Parts />} />
 

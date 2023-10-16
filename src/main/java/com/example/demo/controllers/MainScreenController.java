@@ -36,6 +36,7 @@ public class MainScreenController {
 
   @GetMapping("/about")
   public ResponseEntity<String> about() {
+
     return ResponseEntity.ok("This is the about page.");
   }
 }
