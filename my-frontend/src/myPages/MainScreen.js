@@ -7,6 +7,8 @@ import PageNav from "../components/PageNav";
 import OutsourcedPartForm from "./OutsourcedPartForm";
 import InhousePartForm from "./InhousePartForm";
 import { computeHeadingLevel } from "@testing-library/react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const MainScreen = () => {
   const navigate = useNavigate();
@@ -114,6 +116,19 @@ const MainScreen = () => {
     }
   };
 
+  const generatePDF = () => {
+    const doc = new jsPDF("p", "pt", "a4");
+    doc.text(20, 20, "PurpleCat PC Store");
+    doc.text(20, 40, "Parts");
+    doc.html(document.querySelector("#parts"), {
+      callback: function (pdf) {
+        const pageCount = doc.internal.getNumberOfPages();
+        pdf.deletePage(pageCount);
+        // pdf.save("report.pdf");
+      },
+    });
+  };
+
   useEffect(() => {
     let timeout = setTimeout(() => {
       setError("");
@@ -174,6 +189,15 @@ const MainScreen = () => {
             }}>
             Clear
           </button>
+          {/* pdf button */}
+          <button
+            className="btn btn-primary  m-3"
+            onClick={(e) => {
+              e.preventDefault();
+              generatePDF();
+            }}>
+            report
+          </button>
         </form>
 
         {/* Add Part button:  */}
@@ -188,7 +212,9 @@ const MainScreen = () => {
         </button>
       </div>
       {/* Parts Table */}
-      <table className="table table-bordered table-striped m-3 text-center align-middle">
+      <table
+        id="parts"
+        className="table table-bordered table-striped m-3 text-center align-middle">
         <thead className="thead-dark">
           <tr>
             <th>Name</th>
@@ -310,7 +336,9 @@ const MainScreen = () => {
         </button>
       </div>
       {/* Products Table */}
-      <table className="table table-bordered table-striped m-3 text-center align-middle">
+      <table
+        id="products"
+        className="table table-bordered table-striped m-3 text-center align-middle">
         <thead className="thead-dark">
           <tr>
             <th>Name</th>

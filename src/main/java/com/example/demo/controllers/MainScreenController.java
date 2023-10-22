@@ -2,11 +2,16 @@ package com.example.demo.controllers;
 
 import com.example.demo.domain.Part;
 import com.example.demo.domain.Product;
+import com.example.demo.service.PDFPartService;
 import com.example.demo.service.PartService;
 import com.example.demo.service.ProductService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -14,12 +19,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class MainScreenController {
+
   private final PartService partService;
   private final ProductService productService;
+  private final PDFPartService pdfPartService;
 
-  public MainScreenController(PartService partService, ProductService productService) {
+  public MainScreenController(PartService partService, ProductService productService, PDFPartService pdfPartService) {
     this.partService = partService;
     this.productService = productService;
+    this.pdfPartService = pdfPartService;
   }
 
   @GetMapping("/parts")
@@ -39,4 +47,21 @@ public class MainScreenController {
 
     return ResponseEntity.ok("This is the about page.");
   }
+
+  @GetMapping("/parts/report")
+  public void generatePDF(HttpServletResponse response) throws Exception {
+    response.setContentType("application/pdf");
+    DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+    String currentDateTime = dateFormatter.format(new Date());
+
+    String headerKey = "Content-Disposition";
+    String headerValue = "attachment; filename=pdf_" + currentDateTime + ".pdf";
+//    response.setHeader("Content-Disposition", "attachment; filename=parts.pdf");
+    response.setHeader(headerKey, headerValue);
+
+    List<Part> partList = partService.listAll(null);
+    pdfPartService.export(partList, response);
+
+  }
+
 }

@@ -9,6 +9,7 @@ import About from "./myPages/About";
 import PageNotFound from "./myPages/PageNotFound";
 import Parts from "./myPages/Parts";
 import Login from "./myPages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -16,6 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* <Route element={<ProtectedRoute />}> */}
         <Route path="/" exact element={<MainScreen />} />
         <Route path="login" element={<Login />} />
         <Route path="parts" element={<MainScreen />} />
@@ -33,6 +35,7 @@ function App() {
 
         <Route path="about" element={<About />} />
         <Route path="*" element={<PageNotFound />} />
+        {/* </Route> */}
       </Routes>
     </BrowserRouter>
   );

@@ -4,35 +4,40 @@ import "../App.css";
 import "../custom.scss";
 import axios from "axios";
 import PageNav from "../components/PageNav";
+import supabase from "../services/supabase";
+
+import { login } from "../services/apiAuth";
+// import { useLogin } from "../authentication/useLogin";
 
 const Login = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   console.log(id);
 
-  const [username, setUsername] = useState({});
-  const [password, setPassword] = useState({});
+  const [email, setEmail] = useState("cat1@cat.com");
+  const [password, setPassword] = useState("1234");
+
+  // const { login, isLoading } = useLogin();
+
   const [error, setError] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post(
-        `http://localhost:8080/api/login`,
-        { username, password },
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-          },
-        }
-      );
-      console.log("user login:", res.data);
-
-      navigate("/");
-    } catch (error) {
-      console.log(error);
+    if (!email || !password) return;
+    console.log("clicked");
+    // login({ email, password });
+    // navigate("/");
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      setError("Wrong username or password!");
+      return;
     }
+    navigate("/");
+    console.log(data);
+    return data;
   };
 
   return (
@@ -42,12 +47,13 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <input
           className="form-control mb-4 col-4"
-          placeholder="Username"
+          placeholder="Email"
           required
-          name="username"
+          name="email"
           type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          autoComplete="username"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
@@ -56,6 +62,7 @@ const Login = () => {
           required
           name="password"
           type="password"
+          autoComplete="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -63,10 +70,6 @@ const Login = () => {
         <button className="btn btn-primary m-3" type="submit">
           login
         </button>
-
-        {/* <button className="btn btn-primary m-3" type="submit">
-          {!part.id ? "Add" : "Update"}
-        </button> */}
       </form>
 
       <div style={{ color: "red" }}>{error && <p>{error}</p>}</div>
