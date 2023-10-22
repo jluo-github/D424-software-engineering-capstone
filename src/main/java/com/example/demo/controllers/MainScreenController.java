@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.domain.Part;
 import com.example.demo.domain.Product;
 import com.example.demo.service.PDFPartService;
+import com.example.demo.service.PDFProductService;
 import com.example.demo.service.PartService;
 import com.example.demo.service.ProductService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,11 +24,13 @@ public class MainScreenController {
   private final PartService partService;
   private final ProductService productService;
   private final PDFPartService pdfPartService;
+  private final PDFProductService pdfProductService;
 
-  public MainScreenController(PartService partService, ProductService productService, PDFPartService pdfPartService) {
+  public MainScreenController(PartService partService, ProductService productService, PDFPartService pdfPartService, PDFProductService pdfProductService) {
     this.partService = partService;
     this.productService = productService;
     this.pdfPartService = pdfPartService;
+    this.pdfProductService = pdfProductService;
   }
 
   @GetMapping("/parts")
@@ -49,7 +52,7 @@ public class MainScreenController {
   }
 
   @GetMapping("/parts/report")
-  public void generatePDF(HttpServletResponse response) throws Exception {
+  public void generatePartPDF(HttpServletResponse response) throws Exception {
     response.setContentType("application/pdf");
     DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
     String currentDateTime = dateFormatter.format(new Date());
@@ -63,5 +66,22 @@ public class MainScreenController {
     pdfPartService.export(partList, response);
 
   }
+
+  @GetMapping("/products/report")
+  public void generateProductPDF(HttpServletResponse response) throws Exception {
+    response.setContentType("application/pdf");
+    DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+    String currentDateTime = dateFormatter.format(new Date());
+
+    String headerKey = "Content-Disposition";
+    String headerValue = "attachment; filename=pdf_" + currentDateTime + ".pdf";
+//    response.setHeader("Content-Disposition", "attachment; filename=parts.pdf");
+    response.setHeader(headerKey, headerValue);
+
+    List<Product> productList = productService.listAll(null);
+    pdfProductService.export(productList, response);
+
+  }
+
 
 }

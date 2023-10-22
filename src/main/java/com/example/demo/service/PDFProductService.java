@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.Part;
+import com.example.demo.domain.Product;
 import com.lowagie.text.Font;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfPCell;
@@ -17,9 +17,9 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class PDFPartService {
+public class PDFProductService {
 
-  public void export(List<Part> partList, HttpServletResponse response) throws IOException {
+  public void export(List<Product> productList, HttpServletResponse response) throws IOException {
 
     Document document = new Document(PageSize.A4);
 
@@ -31,46 +31,41 @@ public class PDFPartService {
     fontTitle.setSize(18);
     DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
     String currentDateTime = dateFormatter.format(new Date());
-    String title = "Parts Report " + currentDateTime;
+    String title = "Products Report " + currentDateTime;
     Paragraph paragraph = new Paragraph(title, fontTitle);
     paragraph.setAlignment(Paragraph.ALIGN_CENTER);
 
     document.add(paragraph);
 
-    PdfPTable table = new PdfPTable(5);
-
-
+    PdfPTable table = new PdfPTable(3);
     table.setWidthPercentage(100f);
-//    table.setWidths(new float[]{1.5f, 3.5f, 3.0f, 3.0f, 1.5f});
+    table.setWidths(new float[]{1.5f, 3.5f, 3.0f});
     table.setSpacingBefore(10);
-    partHeader(table);
-    partData(table, partList);
+    productHeader(table);
+    productData(table, productList);
 
     document.add(table);
 
     document.close();
   }
 
-  private void partData(PdfPTable table, List<Part> partList) {
-    for (Part part : partList) {
+  private void productData(PdfPTable table, List<Product> productList) {
+    for (Product product : productList) {
 
-      table.addCell(part.getName());
-      table.addCell(String.valueOf(part.getPrice()));
-      table.addCell(String.valueOf(part.getInv()));
-      table.addCell(String.valueOf(part.getMax()));
-      table.addCell(String.valueOf(part.getMin()));
-
+      table.addCell(product.getName());
+      table.addCell(String.valueOf(product.getPrice()));
+      table.addCell(String.valueOf(product.getInv()));
     }
   }
 
-  private void partHeader(PdfPTable table) {
+  private void productHeader(PdfPTable table) {
     PdfPCell cell = new PdfPCell();
     cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
     cell.setBackgroundColor(Color.LIGHT_GRAY);
     cell.setPadding(5);
 
-    Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+    Font font = FontFactory.getFont(FontFactory.HELVETICA);
     font.setColor(Color.BLACK);
 
     cell.setPhrase(new Phrase("Name", font));
@@ -81,11 +76,7 @@ public class PDFPartService {
 
     cell.setPhrase(new Phrase("Inventory", font));
     table.addCell(cell);
-
-    cell.setPhrase(new Phrase("Max Inventory", font));
-    table.addCell(cell);
-
-    cell.setPhrase(new Phrase("Min Inventory", font));
-    table.addCell(cell);
   }
+
+
 }
