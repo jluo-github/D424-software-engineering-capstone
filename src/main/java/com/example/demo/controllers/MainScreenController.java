@@ -25,6 +25,8 @@ public class MainScreenController {
   private final ProductService productService;
   private final PDFPartService pdfPartService;
   private final PDFProductService pdfProductService;
+  List<Part> partList;
+  List<Product> productList;
 
   public MainScreenController(PartService partService, ProductService productService, PDFPartService pdfPartService, PDFProductService pdfProductService) {
     this.partService = partService;
@@ -52,7 +54,9 @@ public class MainScreenController {
   }
 
   @GetMapping("/parts/report")
-  public void generatePartPDF(HttpServletResponse response) throws Exception {
+  public void generatePartPDF(HttpServletResponse response,
+                              @RequestParam(value = "partKeyword", required = false) String partKeyword
+  ) throws Exception {
     response.setContentType("application/pdf");
     DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
     String currentDateTime = dateFormatter.format(new Date());
@@ -62,13 +66,15 @@ public class MainScreenController {
 //    response.setHeader("Content-Disposition", "attachment; filename=parts.pdf");
     response.setHeader(headerKey, headerValue);
 
-    List<Part> partList = partService.listAll(null);
+    List<Part> partList = partService.listAll(partKeyword);
     pdfPartService.export(partList, response);
 
   }
 
   @GetMapping("/products/report")
-  public void generateProductPDF(HttpServletResponse response) throws Exception {
+  public void generateProductPDF(HttpServletResponse response,
+                                 @RequestParam(value = "productKeyword", required = false) String productKeyword
+  ) throws Exception {
     response.setContentType("application/pdf");
     DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
     String currentDateTime = dateFormatter.format(new Date());
@@ -78,7 +84,7 @@ public class MainScreenController {
 //    response.setHeader("Content-Disposition", "attachment; filename=parts.pdf");
     response.setHeader(headerKey, headerValue);
 
-    List<Product> productList = productService.listAll(null);
+    List<Product> productList = productService.listAll(productKeyword);
     pdfProductService.export(productList, response);
 
   }

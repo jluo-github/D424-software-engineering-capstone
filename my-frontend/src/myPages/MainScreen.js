@@ -7,8 +7,8 @@ import PageNav from "../components/PageNav";
 import OutsourcedPartForm from "./OutsourcedPartForm";
 import InhousePartForm from "./InhousePartForm";
 import { computeHeadingLevel } from "@testing-library/react";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
+// import html2canvas from "html2canvas";
+// import jsPDF from "jspdf";
 
 const MainScreen = () => {
   const navigate = useNavigate();
@@ -116,17 +116,44 @@ const MainScreen = () => {
     }
   };
 
-  const generatePDF = () => {
-    const doc = new jsPDF("p", "pt", "a4");
-    doc.text(20, 20, "PurpleCat PC Store");
-    doc.text(20, 40, "Parts");
-    doc.html(document.querySelector("#parts"), {
-      callback: function (pdf) {
-        const pageCount = doc.internal.getNumberOfPages();
-        pdf.deletePage(pageCount);
-        // pdf.save("report.pdf");
-      },
-    });
+  const generatePartPDF = async (term) => {
+    try {
+      const res = await axios.get("http://localhost:8080/api/parts/report", {
+        params: {
+          partKeyword: term,
+        },
+        responseType: "blob",
+      });
+
+      // Create a blob from the response data
+      const blob = new Blob([res.data], { type: "application/pdf" });
+      // Create a URL for the blob
+      const pdfUrl = window.URL.createObjectURL(blob);
+      // Open the PDF in a new tab or window
+      window.open(pdfUrl, "_blank");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const generateProductPDF = async (term) => {
+    try {
+      const res = await axios.get("http://localhost:8080/api/products/report", {
+        params: {
+          productKeyword: term,
+        },
+        responseType: "blob",
+      });
+
+      // Create a blob from the response data
+      const blob = new Blob([res.data], { type: "application/pdf" });
+      // Create a URL for the blob
+      const pdfUrl = window.URL.createObjectURL(blob);
+      // Open the PDF in a new tab or window
+      window.open(pdfUrl, "_blank");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -189,14 +216,14 @@ const MainScreen = () => {
             }}>
             Clear
           </button>
-          {/* pdf button */}
+          {/* Part pdf button */}
           <button
             className="btn btn-primary  m-3"
             onClick={(e) => {
               e.preventDefault();
-              generatePDF();
+              generatePartPDF(partKeyword);
             }}>
-            report
+            PDF Report
           </button>
         </form>
 
@@ -327,6 +354,15 @@ const MainScreen = () => {
               clearSearchProducts();
             }}>
             Clear
+          </button>
+          {/* Product pdf button */}
+          <button
+            className="btn btn-primary  m-3"
+            onClick={(e) => {
+              e.preventDefault();
+              generateProductPDF(productKeyword);
+            }}>
+            PDF Report
           </button>
         </form>
         <br />
