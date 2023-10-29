@@ -9,6 +9,12 @@ const PageNav = () => {
           <NavLink to="/">Home</NavLink>
         </li>
         <li>
+          <NavLink to="/Products">Products</NavLink>
+        </li>
+        <li>
+          <NavLink to="/Parts">Parts</NavLink>
+        </li>
+        <li>
           <NavLink to="/InhousePartForm">Add Inhouse Part</NavLink>
         </li>
         <li>

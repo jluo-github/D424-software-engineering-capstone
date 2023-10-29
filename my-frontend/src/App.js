@@ -9,6 +9,10 @@ import About from "./myPages/About";
 import PageNotFound from "./myPages/PageNotFound";
 import Parts from "./myPages/Parts";
 import Login from "./myPages/Login";
+import Products from "./myPages/Products";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -16,11 +20,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         {/* <Route element={<ProtectedRoute />}> */}
         <Route path="/" exact element={<MainScreen />} />
         <Route path="login" element={<Login />} />
-        <Route path="parts" element={<MainScreen />} />
+        <Route path="parts" element={<Parts />} />
         <Route path="parts/:id" element={<Parts />} />
 
         <Route path="InhousePartForm" element={<InhousePartForm />} />
@@ -28,7 +33,7 @@ function App() {
         <Route path="OutsourcedPartForm" element={<OutsourcedPartForm />} />
         <Route path="OutsourcedPartForm/:id" element={<OutsourcedPartForm />} />
 
-        <Route path="products" element={<MainScreen />} />
+        <Route path="products" element={<Products />} />
         <Route path="products/:id" element={<ProductDetail />} />
         <Route path="ProductDetail" element={<ProductDetail />} />
         <Route path="ProductDetail/:id" element={<ProductDetail />} />
@@ -37,6 +42,7 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
         {/* </Route> */}
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
