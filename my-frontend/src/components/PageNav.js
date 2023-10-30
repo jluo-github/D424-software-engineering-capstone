@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 import { Container, Navbar, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import Logout from "../authentication/Logout";
 
 const PageNav = () => {
   return (
@@ -45,6 +46,13 @@ const PageNav = () => {
 
             <Nav.Link>
               <NavLink to="login"> login</NavLink>
+            </Nav.Link>
+
+            <Nav.Link>
+              <NavLink to="login">
+                {" "}
+                <Logout />
+              </NavLink>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

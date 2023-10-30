@@ -11,7 +11,7 @@ import PageNav from "../components/PageNav";
 import supabase from "../services/supabase";
 
 import { login } from "../services/apiAuth";
-// import { useLogin } from "../authentication/useLogin";
+import { useLogin } from "../authentication/useLogin";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,15 +21,25 @@ const Login = () => {
   const [email, setEmail] = useState("cat1@cat.com");
   const [password, setPassword] = useState("1234");
 
-  // const { login, isLoading } = useLogin();
+  const { login, isLoading } = useLogin();
 
   const [error, setError] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) return;
+    if (!email || !password) {
+      return;
+    }
     console.log("clicked");
-    // login({ email, password });
+    login(
+      { email, password },
+      {
+        onSettled: () => {
+          setEmail("");
+          setPassword("");
+        },
+      }
+    );
     // navigate("/");
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -54,10 +64,11 @@ const Login = () => {
           placeholder="Email"
           required
           name="email"
-          type="text"
+          type="email"
           autoComplete="username"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          disabled={isLoading}
         />
 
         <input
@@ -66,23 +77,27 @@ const Login = () => {
           required
           name="password"
           type="password"
-          autoComplete="password"
+          autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          disabled={isLoading}
         />
 
-        <button className="btn btn-primary m-3" type="submit">
+        <button
+          className="btn btn-primary m-3"
+          type="submit"
+          disabled={isLoading}>
           login
         </button>
       </form>
 
       <div style={{ color: "red" }}>{error && <p>{error}</p>}</div>
 
-      <footer>
+      {/* <footer>
         <Link to="/">
           <button className="btn btn-primary  m-5">Back to Main Menu</button>
         </Link>
-      </footer>
+      </footer> */}
     </div>
   );
 };
