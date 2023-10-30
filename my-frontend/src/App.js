@@ -10,8 +10,8 @@ import PageNotFound from "./myPages/PageNotFound";
 import Parts from "./myPages/Parts";
 import Login from "./myPages/Login";
 import Products from "./myPages/Products";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+
+import Home from "./components/Home";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -20,29 +20,34 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <BrowserRouter>
-      <Header />
       <Routes>
+        <Route path="/" element={<Home />}>
+          <Route path="/" exact element={<MainScreen />} />
+          <Route path="login" element={<Login />} />
+          <Route path="parts" element={<Parts />} />
+          <Route path="parts/:id" element={<Parts />} />
+
+          <Route path="InhousePartForm" element={<InhousePartForm />} />
+          <Route path="InhousePartForm/:id" element={<InhousePartForm />} />
+          <Route path="OutsourcedPartForm" element={<OutsourcedPartForm />} />
+          <Route
+            path="OutsourcedPartForm/:id"
+            element={<OutsourcedPartForm />}
+          />
+
+          <Route path="products" element={<Products />} />
+          <Route path="products/:id" element={<ProductDetail />} />
+
+          <Route path="ProductDetail" element={<ProductDetail />} />
+          <Route path="ProductDetail/:id" element={<ProductDetail />} />
+
+          <Route path="about" element={<About />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Route>
         {/* <Route element={<ProtectedRoute />}> */}
-        <Route path="/" exact element={<MainScreen />} />
-        <Route path="login" element={<Login />} />
-        <Route path="parts" element={<Parts />} />
-        <Route path="parts/:id" element={<Parts />} />
 
-        <Route path="InhousePartForm" element={<InhousePartForm />} />
-        <Route path="InhousePartForm/:id" element={<InhousePartForm />} />
-        <Route path="OutsourcedPartForm" element={<OutsourcedPartForm />} />
-        <Route path="OutsourcedPartForm/:id" element={<OutsourcedPartForm />} />
-
-        <Route path="products" element={<Products />} />
-        <Route path="products/:id" element={<ProductDetail />} />
-        <Route path="ProductDetail" element={<ProductDetail />} />
-        <Route path="ProductDetail/:id" element={<ProductDetail />} />
-
-        <Route path="about" element={<About />} />
-        <Route path="*" element={<PageNotFound />} />
         {/* </Route> */}
       </Routes>
-      <Footer />
     </BrowserRouter>
   );
 }

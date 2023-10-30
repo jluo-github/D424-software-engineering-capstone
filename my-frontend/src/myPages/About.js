@@ -15,7 +15,7 @@ const About = () => {
       </p>
       <footer>
         <Link to="/">
-          <button className="btn btn-primary m-5">Back to Main Screen</button>
+          <button className="btn btn-primary m-5">Back to Main Menu</button>
         </Link>
       </footer>
     </div>

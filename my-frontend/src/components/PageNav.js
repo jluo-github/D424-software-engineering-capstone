@@ -1,36 +1,55 @@
-import React from "react";
-import { NavLink, useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+
+import { Container, Navbar, Nav } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
 const PageNav = () => {
   return (
-    <nav>
-      <ul>
-        <li>
+    <Navbar
+      bg=""
+      variant="dark"
+      expand="lg"
+      className="text-center shadow-lg py-4 sticky-top">
+      <Container>
+        <Navbar.Brand>
           <NavLink to="/">Home</NavLink>
-        </li>
-        <li>
-          <NavLink to="/Products">Products</NavLink>
-        </li>
-        <li>
-          <NavLink to="/Parts">Parts</NavLink>
-        </li>
-        <li>
-          <NavLink to="/InhousePartForm">Add Inhouse Part</NavLink>
-        </li>
-        <li>
-          <NavLink to="/OutsourcedPartForm">Add Outsourced Part</NavLink>
-        </li>
-        <li>
-          <NavLink to="/ProductDetail">Add Product</NavLink>
-        </li>
-        <li>
-          <NavLink to="/about">About</NavLink>
-        </li>
-        <li>
-          <NavLink to="/login">Login</NavLink>
-        </li>
-      </ul>
-    </nav>
+        </Navbar.Brand>
+
+        <Navbar.Toggle />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="">
+            <Nav.Link>
+              {" "}
+              <NavLink to="Products">Products</NavLink>
+            </Nav.Link>
+
+            <Nav.Link>
+              <NavLink to="Parts"> Parts</NavLink>
+            </Nav.Link>
+
+            <Nav.Link>
+              <NavLink to="InhousePartForm">Add Inhouse Part</NavLink>
+            </Nav.Link>
+
+            <Nav.Link>
+              <NavLink to="OutsourcedPartForm">Add Outsourced Part</NavLink>
+            </Nav.Link>
+
+            <Nav.Link>
+              <NavLink to="ProductDetail"> Add Product</NavLink>
+            </Nav.Link>
+
+            <Nav.Link>
+              <NavLink to="about"> About</NavLink>
+            </Nav.Link>
+
+            <Nav.Link>
+              <NavLink to="login"> login</NavLink>
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 

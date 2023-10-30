@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { Table, Container } from "react-bootstrap";
 import "../App.css";
 import "../custom.scss";
 import axios from "axios";
@@ -163,9 +164,9 @@ const Parts = () => {
   }, [error, errorBuy]);
 
   return (
-    <div>
+    <div className="container text-center m-5">
       {/* Parts Search form:  */}
-      <div className="text-center">
+      <div className="text-center m-5">
         <h2 className="m-5">Parts</h2>
         <form>
           Filter :
@@ -222,9 +223,12 @@ const Parts = () => {
         </button>
       </div>
       {/* Parts Table */}
-      <table
+      <Table
         id="parts"
-        className="table table-bordered table-striped m-3 text-center align-middle">
+        className="darkMode table-dark  m-3 text-center align-middle"
+        striped
+        bordered
+        hover>
         <thead className="thead-dark">
           <tr>
             <th>Name</th>
@@ -237,7 +241,7 @@ const Parts = () => {
         </thead>
         <tbody>
           {parts.map((part) => (
-            <tr key={part.id}>
+            <tr className="darkMode" key={part.id}>
               <td>{part.name}</td>
               <td>{part.price}</td>
               <td>{part.inv}</td>
@@ -301,11 +305,11 @@ const Parts = () => {
             </tr>
           ))}
         </tbody>
-      </table>{" "}
+      </Table>{" "}
       <div style={{ color: "red" }}>{error && <p>{error}</p>}</div>
       <footer>
         <Link to="/">
-          <button className="btn btn-primary m-5">Back to Main Screen</button>
+          <button className="btn btn-primary m-5">Back to Main Menu</button>
         </Link>
       </footer>
     </div>

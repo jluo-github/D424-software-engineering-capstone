@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, Link, useParams, useNavigate } from "react-router-dom";
+import { Button, Alert, Container, Row, Col } from "react-bootstrap";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+
 import "../App.css";
 import "../custom.scss";
 
@@ -8,46 +11,85 @@ import OutsourcedPartForm from "./OutsourcedPartForm";
 import InhousePartForm from "./InhousePartForm";
 
 const MainScreen = () => {
-  return (
-    <div className="container m-5">
-      <PageNav />
+  const [alert, setAlert] = useState(false);
+  const [display, setDisplay] = useState("display");
 
-      <div className="container text-center">
-        <div className="row align-items-start">
-          <div className="col m-3">
-            <h1>PurpleCat PC Store</h1>
-          </div>
-          <nav>
-            <ul>
-              <li>
-                <NavLink to="/">Home</NavLink>
-              </li>
-              <li>
-                <NavLink to="/Products">Products</NavLink>
-              </li>
-              <li>
-                <NavLink to="/Parts">Parts</NavLink>
-              </li>
-              <li>
-                <NavLink to="/InhousePartForm">Add Inhouse Part</NavLink>
-              </li>
-              <li>
-                <NavLink to="/OutsourcedPartForm">Add Outsourced Part</NavLink>
-              </li>
-              <li>
-                <NavLink to="/ProductDetail">Add Product</NavLink>
-              </li>
-              <li>
-                <NavLink to="/about">About</NavLink>
-              </li>
-              <li>
-                <NavLink to="/login">Login</NavLink>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </div>
+  const username = localStorage.getItem("username");
+  const displayName = localStorage.getItem("displayName");
+
+  useEffect(() => {
+    if (username) {
+      setAlert(true);
+    }
+    const timer = setTimeout(() => {
+      setAlert(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  let navigate = useNavigate();
+  const changePage = () => {
+    localStorage.removeItem("username");
+    localStorage.removeItem("displayName");
+    navigate("login");
+  };
+
+  return (
+    <>
+      <Container>
+        {alert && (
+          <Alert variant="success">
+            {" "}
+            &nbsp;
+            <IoIosCheckmarkCircleOutline /> &nbsp;You are now logged in{" "}
+          </Alert>
+        )}
+      </Container>
+      <div className="container m-5">
+        <Row className="mt-5 mb-5 text-center">
+          {" "}
+          <h1>PurpleCat PC Store</h1>
+          <Container className="fluid">
+            {" "}
+            <Container className="my-5">
+              <Row className="mt-5 mb-5 text-center p-5 ">
+                <h3>Main Menu</h3>
+
+                <Link className="navLink my-3" to="Products">
+                  Products
+                </Link>
+                <Link className="navLink mb-3" to="Parts">
+                  {" "}
+                  Parts
+                </Link>
+                <Link className="navLink mb-3" to="InhousePartForm">
+                  Add Inhouse Part
+                </Link>
+                <Link className="navLink mb-3" to="OutsourcedPartForm">
+                  Add Outsourced Part
+                </Link>
+                <Link className="navLink mb-3" to="ProductDetail">
+                  Add Product
+                </Link>
+                <Link className="navLink mb-3" to="About">
+                  About
+                </Link>
+
+                <Link className="navLink mb-3" to="Login">
+                  Login
+                </Link>
+              </Row>
+            </Container>
+            <Button
+              onClick={changePage}
+              className="d-flex ms-auto ps-5 pe-5 mb-5 shadow-lg"
+              variant="secondary">
+              Exit
+            </Button>
+          </Container>
+        </Row>
+      </div>{" "}
+    </>
   );
 };
 export default MainScreen;

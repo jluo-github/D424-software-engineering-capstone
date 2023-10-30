@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { Table, Container } from "react-bootstrap";
 import "../App.css";
 import "../custom.scss";
 import axios from "axios";
@@ -163,175 +164,161 @@ const Products = () => {
   }, [error, errorBuy]);
 
   return (
-    <div>
-      <div className="container m-5">
-        <PageNav />
-        {/* Header */}
-        <div className="container text-center">
-          <div className="row align-items-start">
-            <div className="col m-3">
-              <h1>PurpleCat PC Store</h1>
-            </div>
-            <div className="col m-3">
-              <a className="btn btn-primary me-3 m-auto" href="/about">
-                About
-              </a>
-            </div>
-          </div>
-        </div>
-        <hr />
-        {/* Products search form: */}
-        <div className="text-center m-5">
-          <h2 className="m-5">Products</h2>
-          <form>
-            Filter:
-            <input
-              id="productKeyword"
-              name="productKeyword"
-              required
-              size="50"
-              value={productKeyword}
-              onChange={handleProductInputChange}
-              type="text"
-            />
-            &nbsp;
-            {/* Search products button: */}
-            <button
-              className="btn btn-primary  m-3"
-              onClick={(e) => {
-                e.preventDefault();
-                console.log("partKeyword:", productKeyword);
-                searchProducts(productKeyword);
-              }}>
-              Search
-            </button>
-            &nbsp;
-            {/* Clear search products button: */}
-            <button
-              className="btn btn-primary m-3"
-              onClick={(e) => {
-                e.preventDefault();
-                clearSearchProducts();
-              }}>
-              Clear
-            </button>
-            {/* Product pdf button */}
-            <button
-              className="btn btn-primary  m-3"
-              onClick={(e) => {
-                e.preventDefault();
-                generateProductPDF(productKeyword);
-              }}>
-              PDF Report
-            </button>
-          </form>
-          <br />
-          <br />
-          <button className="btn btn-primary m-3" onClick={handleAddProduct}>
-            Add Product
+    <div className="container text-center m-5">
+      <div className="text-center m-5">
+        <h2 className="m-5">Products</h2>
+        <form>
+          Filter:
+          <input
+            id="productKeyword"
+            name="productKeyword"
+            required
+            size="50"
+            value={productKeyword}
+            onChange={handleProductInputChange}
+            type="text"
+          />
+          &nbsp;
+          {/* Search products button: */}
+          <button
+            className="btn btn-primary  m-3"
+            onClick={(e) => {
+              e.preventDefault();
+              console.log("partKeyword:", productKeyword);
+              searchProducts(productKeyword);
+            }}>
+            Search
           </button>
-        </div>
-        {/* Products Table */}
-        <table
-          id="products"
-          className="table table-bordered table-striped m-3 text-center align-middle">
-          <thead className="thead-dark">
-            <tr>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Inventory</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
-              <tr key={product.id}>
-                <td>{product.name}</td>
-                <td>{product.price}</td>
-                <td>{product.inv}</td>
-                <td>
-                  {/* Products Update button */}
-                  <button
-                    className="btn btn-primary m-3"
-                    onClick={() => {
-                      navigate(`/ProductDetail/${product.id}`);
-                    }}>
-                    Update
-                  </button>
-
-                  {/* Products Buy button */}
-                  <button
-                    className="btn btn-primary m-3"
-                    onClick={async () => {
-                      try {
-                        const res = await axios.post(
-                          `http://localhost:8080/api/products/buy/${product.id}`,
-                          {
-                            headers: {
-                              "Access-Control-Allow-Origin": "*",
-                              "Access-Control-Allow-Methods":
-                                "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-                            },
-                          }
-                        );
-                        const updatedProducts = [...products];
-                        const productIndex = updatedProducts.findIndex(
-                          (p) => p.id === product.id
-                        );
-
-                        if (productIndex !== -1) {
-                          updatedProducts[productIndex] = {
-                            ...updatedProducts[productIndex],
-                            inv: updatedProducts[productIndex].inv - 1,
-                          };
-                          setProducts(updatedProducts);
-                        }
-                        console.log("Product bought:", res.data);
-                        alert("Product added successfully");
-                        navigate("/");
-                      } catch (error) {
-                        setErrorBuy(
-                          "Purchase unsuccessful, product is out of stock!"
-                        );
-                      }
-                    }}>
-                    Buy Now
-                  </button>
-
-                  {/* Products Delete button */}
-                  <button
-                    className="btn btn-primary  m-3"
-                    onClick={async () => {
-                      if (
-                        window.confirm(
-                          "Are you sure you want to delete this product?"
-                        )
-                      ) {
-                        try {
-                          const res = await axios.delete(
-                            `http://localhost:8080/api/products/delete/${product.id}`
-                          );
-                          console.log("Product deleted:", res.data);
-                          setProducts((products) =>
-                            products.filter((item) => item.id !== product.id)
-                          );
-                        } catch (error) {
-                          console.error("Error deleting product:", error);
-                        }
-                      }
-                    }}>
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>{" "}
-        <div style={{ color: "red" }}>{errorBuy && <p>{errorBuy}</p>}</div>
+          &nbsp;
+          {/* Clear search products button: */}
+          <button
+            className="btn btn-primary m-3"
+            onClick={(e) => {
+              e.preventDefault();
+              clearSearchProducts();
+            }}>
+            Clear
+          </button>
+          {/* Product pdf button */}
+          <button
+            className="btn btn-primary  m-3"
+            onClick={(e) => {
+              e.preventDefault();
+              generateProductPDF(productKeyword);
+            }}>
+            PDF Report
+          </button>
+        </form>
+        <br />
+        <br />
+        <button className="btn btn-primary m-3" onClick={handleAddProduct}>
+          Add Product
+        </button>
       </div>
+      {/* Products Table */}
+      <Table
+        id="products"
+        // className="table table-bordered table-striped m-3 text-center align-middle"
+        className="darkMode table-dark m-3 text-center align-middle"
+        striped
+        bordered
+        hover>
+        <thead className="thead-dark">
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Inventory</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product) => (
+            <tr className="darkMode" key={product.id}>
+              <td>{product.name}</td>
+              <td>{product.price}</td>
+              <td>{product.inv}</td>
+              <td>
+                {/* Products Update button */}
+                <button
+                  className="btn btn-primary m-3"
+                  onClick={() => {
+                    navigate(`/ProductDetail/${product.id}`);
+                  }}>
+                  Update
+                </button>
+
+                {/* Products Buy button */}
+                <button
+                  className="btn btn-primary m-3"
+                  onClick={async () => {
+                    try {
+                      const res = await axios.post(
+                        `http://localhost:8080/api/products/buy/${product.id}`,
+                        {
+                          headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Methods":
+                              "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                          },
+                        }
+                      );
+                      const updatedProducts = [...products];
+                      const productIndex = updatedProducts.findIndex(
+                        (p) => p.id === product.id
+                      );
+
+                      if (productIndex !== -1) {
+                        updatedProducts[productIndex] = {
+                          ...updatedProducts[productIndex],
+                          inv: updatedProducts[productIndex].inv - 1,
+                        };
+                        setProducts(updatedProducts);
+                      }
+                      console.log("Product bought:", res.data);
+                      alert("Product added successfully");
+                      navigate("/");
+                    } catch (error) {
+                      setErrorBuy(
+                        "Purchase unsuccessful, product is out of stock!"
+                      );
+                    }
+                  }}>
+                  Buy Now
+                </button>
+
+                {/* Products Delete button */}
+                <button
+                  className="btn btn-primary  m-3"
+                  onClick={async () => {
+                    if (
+                      window.confirm(
+                        "Are you sure you want to delete this product?"
+                      )
+                    ) {
+                      try {
+                        const res = await axios.delete(
+                          `http://localhost:8080/api/products/delete/${product.id}`
+                        );
+                        console.log("Product deleted:", res.data);
+                        setProducts((products) =>
+                          products.filter((item) => item.id !== product.id)
+                        );
+                      } catch (error) {
+                        console.error("Error deleting product:", error);
+                      }
+                    }
+                  }}>
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>{" "}
+      <div style={{ color: "red" }}>{errorBuy && <p>{errorBuy}</p>}</div>
       <footer>
         <Link to="/">
-          <button className="btn btn-primary m-5">Back to Main Screen</button>
+          <button className="btn btn-primary  m-5">Back to Main Menu</button>
         </Link>
       </footer>
     </div>

@@ -68,7 +68,7 @@ const InhousePartForm = () => {
       );
       console.log("Part added:", res.data);
       setPart(res.data);
-      navigate("/");
+      navigate("/Parts");
     } catch (error) {
       if (error.response.data === "Validation failed") {
         setError("Inventory must be between or at the Max and Min value!!");
@@ -171,7 +171,7 @@ const InhousePartForm = () => {
 
       <footer>
         <Link to="/">
-          <button className="btn btn-primary  m-5">Back to Main Screen</button>
+          <button className="btn btn-primary  m-5">Back to Main Menu</button>
         </Link>
       </footer>
     </div>

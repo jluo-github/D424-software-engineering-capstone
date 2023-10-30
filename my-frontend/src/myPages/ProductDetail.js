@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { Table, Container } from "react-bootstrap";
 import axios from "axios";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import PageNav from "../components/PageNav";
-import { computeHeadingLevel } from "@testing-library/react";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
@@ -106,7 +105,7 @@ const ProductDetail = () => {
         },
       });
       console.log("Product updated:", res.data);
-      navigate("/");
+      navigate("/Products");
     } catch (error) {
       if (error.response && error.response.data) {
         const errorMessage = error.response.data[0].defaultMessage;
@@ -185,14 +184,18 @@ const ProductDetail = () => {
             onClick={() => {
               navigate(`/`);
             }}>
-            Back to Main Screen
+            Back to Main Menu
           </button>
         )}
       </form>
 
       {/* Available parts List:  */}
       <h2 className="m-5">Available Parts</h2>
-      <table className="table table-bordered table-striped align-middle">
+      <Table
+        className="darkMode table-dark  align-middle"
+        striped
+        bordered
+        hover>
         <thead className="thead-dark">
           <tr>
             <th>Name</th>
@@ -205,7 +208,7 @@ const ProductDetail = () => {
         </thead>
         <tbody>
           {availableParts.map((availPart) => (
-            <tr key={availPart.id}>
+            <tr className="darkMode" key={availPart.id}>
               <td>{availPart.name}</td>
               <td>{availPart.price}</td>
               <td>{availPart.inv}</td>
@@ -256,11 +259,15 @@ const ProductDetail = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
 
       {/* Associated parts List:  */}
       <h2 className="m-5">Associated Parts</h2>
-      <table className="table table-bordered table-striped align-middle">
+      <Table
+        className="darkMode table-dark  align-middle"
+        striped
+        bordered
+        hover>
         <thead className="thead-dark">
           <tr>
             <th>Name</th>
@@ -273,7 +280,7 @@ const ProductDetail = () => {
         </thead>
         <tbody>
           {associatedParts.map((assoPart) => (
-            <tr key={assoPart.id}>
+            <tr className="darkMode" key={assoPart.id}>
               <td>{assoPart.name}</td>
               <td>{assoPart.price}</td>
               <td>{assoPart.inv}</td>
@@ -310,7 +317,7 @@ const ProductDetail = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
 
       {/* <footer>
         {!error} && (
