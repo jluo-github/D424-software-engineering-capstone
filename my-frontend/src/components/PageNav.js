@@ -21,37 +21,38 @@ const PageNav = () => {
           <Nav className="">
             <Nav.Link>
               {" "}
-              <NavLink to="Products">Products</NavLink>
+              <NavLink to="/Products">Products</NavLink>
             </Nav.Link>
 
             <Nav.Link>
-              <NavLink to="Parts"> Parts</NavLink>
+              <NavLink to="/Parts"> Parts</NavLink>
             </Nav.Link>
 
             <Nav.Link>
-              <NavLink to="InhousePartForm">Add Inhouse Part</NavLink>
+              <NavLink to="/InhousePartForm">Add Inhouse Part</NavLink>
             </Nav.Link>
 
             <Nav.Link>
-              <NavLink to="OutsourcedPartForm">Add Outsourced Part</NavLink>
+              <NavLink to="/OutsourcedPartForm">Add Outsourced Part</NavLink>
             </Nav.Link>
 
             <Nav.Link>
-              <NavLink to="ProductDetail"> Add Product</NavLink>
+              <NavLink to="/ProductDetail"> Add Product</NavLink>
             </Nav.Link>
 
             <Nav.Link>
-              <NavLink to="about"> About</NavLink>
+              <NavLink to="/about"> About</NavLink>
             </Nav.Link>
 
-            <Nav.Link>
-              <NavLink to="login"> login</NavLink>
-            </Nav.Link>
+            {/* <Nav.Link>
+              <NavLink to="/login"> Login</NavLink>
+            </Nav.Link> */}
 
             <Nav.Link>
-              <NavLink to="login">
+              <NavLink to="/login">
                 {" "}
-                <Logout />
+                Logout
+                {/* <Logout /> */}
               </NavLink>
             </Nav.Link>
           </Nav>

@@ -31,7 +31,7 @@ const MainScreen = () => {
   const changePage = () => {
     localStorage.removeItem("username");
     localStorage.removeItem("displayName");
-    navigate("login");
+    navigate("/login");
   };
 
   return (
@@ -74,17 +74,13 @@ const MainScreen = () => {
                 <Link className="navLink mb-3" to="About">
                   About
                 </Link>
-
-                <Link className="navLink mb-3" to="Login">
-                  Login
-                </Link>
               </Row>
             </Container>
             <Button
               onClick={changePage}
               className="d-flex ms-auto ps-5 pe-5 mb-5 shadow-lg"
               variant="secondary">
-              Exit
+              Logout
             </Button>
           </Container>
         </Row>

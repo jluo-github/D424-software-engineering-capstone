@@ -34,7 +34,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           {" "}
-          <Route path="login" element={<Login />} />
           <Route
             element={
               <ProtectedRoute>
@@ -59,12 +58,10 @@ function App() {
 
             <Route path="ProductDetail" element={<ProductDetail />} />
             <Route path="ProductDetail/:id" element={<ProductDetail />} />
-
-            <Route path="about" element={<About />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Route>
-          {/* <Route element={<ProtectedRoute />}> */}
-          {/* </Route> */}
+            <Route path="/about" element={<About />} />
+          </Route>{" "}
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>{" "}
     </QueryClientProvider>
