@@ -18,8 +18,11 @@ const Login = () => {
   const { id } = useParams();
   console.log(id);
 
-  const [email, setEmail] = useState("cat1@cat.com");
-  const [password, setPassword] = useState("1234");
+  // const [email, setEmail] = useState("cat1@cat.com");
+  // const [password, setPassword] = useState("1234");
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const { login, isLoading } = useLogin();
 
@@ -61,7 +64,7 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <input
           className="form-control mb-4 col-4"
-          placeholder="Email"
+          placeholder="Guest Email: cat1@cat.com"
           required
           name="email"
           type="email"
@@ -73,7 +76,7 @@ const Login = () => {
 
         <input
           className="form-control mb-4 col-4"
-          placeholder="password"
+          placeholder="Guest Password: 1234"
           required
           name="password"
           type="password"
