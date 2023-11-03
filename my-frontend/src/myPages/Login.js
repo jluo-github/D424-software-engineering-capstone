@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { FiAlertCircle } from "react-icons/fi";
-import { FileEarmarkRuledFill } from "react-bootstrap-icons";
-import { Button, Alert, Card, Form, Container } from "react-bootstrap";
-import Footer from "../components/Footer";
+import { Button } from "react-bootstrap";
 import "../App.css";
 import "../custom.scss";
-import axios from "axios";
+import Footer from "../components/Footer";
 import PageNav from "../components/PageNav";
 import supabase from "../services/supabase";
 
-import { login } from "../services/apiAuth";
 import { useLogin } from "../authentication/useLogin";
 
 const Login = () => {
@@ -43,7 +39,7 @@ const Login = () => {
         },
       }
     );
-    // navigate("/");
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -59,6 +55,7 @@ const Login = () => {
 
   return (
     <div className="container text-center m-5">
+      <h1>PurpleCat PC Store</h1>
       <h1 className="m-5">User Login</h1>
 
       <form onSubmit={handleSubmit}>
@@ -86,21 +83,15 @@ const Login = () => {
           disabled={isLoading}
         />
 
-        <button
-          className="btn btn-primary m-3"
+        <Button
+          className="ps-5 pe-5 m-5 shadow-lg"
           type="submit"
           disabled={isLoading}>
-          login
-        </button>
+          Login
+        </Button>
       </form>
 
       <div style={{ color: "red" }}>{error && <p>{error}</p>}</div>
-
-      {/* <footer>
-        <Link to="/">
-          <button className="btn btn-primary  m-5">Back to Main Menu</button>
-        </Link>
-      </footer> */}
       <Footer />
     </div>
   );

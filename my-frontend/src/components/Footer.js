@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+
 import { Github } from "react-bootstrap-icons";
 
 const Footer = () => {

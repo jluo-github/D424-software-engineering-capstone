@@ -12,13 +12,13 @@ const PageNav = () => {
       expand="lg"
       className="text-center shadow-lg py-4 sticky-top">
       <Container>
-        <Navbar.Brand>
+        <Navbar.Brand className="me-5">
           <NavLink to="/">Home</NavLink>
         </Navbar.Brand>
 
         <Navbar.Toggle />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="">
+          <Nav className="mx-5">
             <Nav.Link>
               {" "}
               <NavLink to="/Products">Products</NavLink>
@@ -42,18 +42,6 @@ const PageNav = () => {
 
             <Nav.Link>
               <NavLink to="/about"> About</NavLink>
-            </Nav.Link>
-
-            {/* <Nav.Link>
-              <NavLink to="/login"> Login</NavLink>
-            </Nav.Link> */}
-
-            <Nav.Link>
-              <NavLink to="/login">
-                {" "}
-                Logout
-                {/* <Logout /> */}
-              </NavLink>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

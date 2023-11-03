@@ -1,16 +1,17 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useUser } from "../authentication/useUser";
-import { HiArrowRightOnRectangle } from "react-icons/hi2";
+
 import { useLogout } from "./useLogout";
+import { Button } from "react-bootstrap";
 
 const Logout = () => {
-  const navigate = useNavigate();
   const { logout, isLoading } = useLogout();
   return (
-    <button disabled={isLoading} onClick={logout}>
-      {!isLoading ? <HiArrowRightOnRectangle /> : <p>Spinner: loading</p>}
-    </button>
+    <Button
+      className="d-flex ms-auto ps-5 pe-5 mb-5 shadow-lg "
+      disabled={isLoading}
+      onClick={logout}>
+      Logout
+    </Button>
   );
 };
 

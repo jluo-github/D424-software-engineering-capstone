@@ -275,8 +275,8 @@ const Products = () => {
                         setProducts(updatedProducts);
                       }
                       console.log("Product bought:", res.data);
-                      alert("Product added successfully");
-                      navigate("/");
+                      alert("Product bought successfully");
+                      navigate("/products");
                     } catch (error) {
                       setErrorBuy(
                         "Purchase unsuccessful, product is out of stock!"

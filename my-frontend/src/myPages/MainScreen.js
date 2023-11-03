@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, Link, useParams, useNavigate } from "react-router-dom";
 import { Button, Alert, Container, Row, Col } from "react-bootstrap";
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+
+import Logout from "../authentication/Logout";
 
 import "../App.css";
 import "../custom.scss";
@@ -14,37 +15,11 @@ const MainScreen = () => {
   const [alert, setAlert] = useState(false);
   const [display, setDisplay] = useState("display");
 
-  const username = localStorage.getItem("username");
-  const displayName = localStorage.getItem("displayName");
-
-  useEffect(() => {
-    if (username) {
-      setAlert(true);
-    }
-    const timer = setTimeout(() => {
-      setAlert(false);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
-
   let navigate = useNavigate();
-  const changePage = () => {
-    localStorage.removeItem("username");
-    localStorage.removeItem("displayName");
-    navigate("/login");
-  };
 
   return (
     <>
-      <Container>
-        {alert && (
-          <Alert variant="success">
-            {" "}
-            &nbsp;
-            <IoIosCheckmarkCircleOutline /> &nbsp;You are now logged in{" "}
-          </Alert>
-        )}
-      </Container>
+      <Container></Container>
       <div className="container m-5">
         <Row className="mt-5 mb-5 text-center">
           {" "}
@@ -76,12 +51,7 @@ const MainScreen = () => {
                 </Link>
               </Row>
             </Container>
-            <Button
-              onClick={changePage}
-              className="d-flex ms-auto ps-5 pe-5 mb-5 shadow-lg"
-              variant="secondary">
-              Logout
-            </Button>
+            <Logout />
           </Container>
         </Row>
       </div>{" "}
