@@ -170,7 +170,7 @@ const ProductDetail = () => {
           placeholder="Price"
           required
           name="price"
-          type="number"
+          type="text"
           value={product.price}
           onChange={handlePriceChange}
         />

@@ -131,7 +131,7 @@ const OutsourcedPartForm = () => {
           placeholder="Price"
           required
           name="price"
-          type="number"
+          type="text"
           value={part.price}
           onChange={handlePriceChange}
         />
