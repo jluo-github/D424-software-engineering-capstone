@@ -47,11 +47,11 @@ public class MainScreenController {
     return ResponseEntity.ok(productList);
   }
 
-  @GetMapping("/about")
-  public ResponseEntity<String> about() {
-
-    return ResponseEntity.ok("This is the about page.");
-  }
+//  @GetMapping("/about")
+//  public ResponseEntity<String> about() {
+//
+//    return ResponseEntity.ok("This is the about page.");
+//  }
 
   @GetMapping("/parts/report")
   public void generatePartPDF(HttpServletResponse response,
@@ -91,3 +91,6 @@ public class MainScreenController {
 
 
 }
+
+
+

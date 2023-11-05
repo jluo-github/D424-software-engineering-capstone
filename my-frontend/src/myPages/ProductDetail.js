@@ -12,6 +12,8 @@ const ProductDetail = () => {
   const [availableParts, setAvailableParts] = useState([]);
   const [associatedParts, setAssociatedParts] = useState([]);
   const [error, setError] = useState("");
+  const [priceError, setPriceError] = useState("");
+  const [price, setPrice] = useState(product.price);
 
   useEffect(() => {
     if (id) {
@@ -90,6 +92,20 @@ const ProductDetail = () => {
     });
   };
 
+  const handlePriceChange = (e) => {
+    const input = e.target.value;
+    const validated = input.match(/^\d+(\.\d{0,2})?$/);
+    if (validated || input === "") {
+      setProduct({
+        ...product,
+        price: input,
+      });
+      setPriceError("");
+    } else {
+      setPriceError("Please enter a valid price!");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -140,27 +156,30 @@ const ProductDetail = () => {
         /> */}
 
         <input
-          type="text"
-          name="name"
+          className="form-control mb-4 col-4"
           placeholder="Name"
           required
-          className="form-control mb-4 col-4"
+          name="name"
+          type="text"
           value={product.name}
           onChange={handleInputChange}
         />
 
         <input
-          type="text"
-          name="price"
+          className="form-control mb-4 col-4"
           placeholder="Price"
           required
-          className="form-control mb-4 col-4"
+          name="price"
+          type="number"
           value={product.price}
-          onChange={handleInputChange}
+          onChange={handlePriceChange}
         />
+        <div style={{ color: "red" }}>
+          {priceError ? <p>{priceError}</p> : null}
+        </div>
 
         <input
-          type={product.id ? "text" : "hidden"}
+          type={product.id ? "number" : "hidden"}
           name="inv"
           placeholder="Inventory"
           required
@@ -318,16 +337,6 @@ const ProductDetail = () => {
           ))}
         </tbody>
       </Table>
-
-      {/* <footer>
-        {!error} && (
-        <Link to="/">
-          <button className="btn btn-primary btn-sm m-5">
-            Back to Main Screen
-          </button>
-        </Link>
-        )
-      </footer> */}
     </div>
   );
 };

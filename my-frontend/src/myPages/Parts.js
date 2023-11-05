@@ -24,10 +24,6 @@ const Parts = () => {
     setPartKeyword(e.target.value);
   };
 
-  // const handleProductInputChange = (e) => {
-  //   setProductKeyword(e.target.value);
-  // };
-
   const handleInhousePart = () => {
     navigate("/InhousePartForm");
   };
@@ -35,10 +31,6 @@ const Parts = () => {
   const handleOutsourcedPart = () => {
     navigate("/OutsourcedPartForm");
   };
-
-  // const handleAddProduct = () => {
-  //   navigate("/ProductDetail");
-  // };
 
   useEffect(() => {
     const fetchParts = async () => {
@@ -50,15 +42,6 @@ const Parts = () => {
       }
     };
     fetchParts();
-    // const fetchProducts = async () => {
-    //   try {
-    //     const res = await axios.get("http://localhost:8080/api/products");
-    //     setProducts(res.data);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
-    // fetchProducts();
   }, []);
 
   const searchParts = async (term) => {
@@ -88,33 +71,6 @@ const Parts = () => {
     }
   };
 
-  // const searchProducts = async (term) => {
-  //   try {
-  //     const res = await axios.get(`http://localhost:8080/api/products`, {
-  //       headers: {
-  //         "Access-Control-Allow-Origin": "*",
-  //         "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-  //       },
-  //       params: {
-  //         productKeyword: term,
-  //       },
-  //     });
-  //     setProducts(res.data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // const clearSearchProducts = async () => {
-  //   try {
-  //     const res = await axios.get("http://localhost:8080/api/products");
-  //     setProductKeyword("");
-  //     setProducts(res.data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   const generatePartPDF = async (term) => {
     try {
       const res = await axios.get("http://localhost:8080/api/parts/report", {
@@ -134,26 +90,6 @@ const Parts = () => {
       console.log(err);
     }
   };
-
-  // const generateProductPDF = async (term) => {
-  //   try {
-  //     const res = await axios.get("http://localhost:8080/api/products/report", {
-  //       params: {
-  //         productKeyword: term,
-  //       },
-  //       responseType: "blob",
-  //     });
-
-  //     // Create a blob from the response data
-  //     const blob = new Blob([res.data], { type: "application/pdf" });
-  //     // Create a URL for the blob
-  //     const pdfUrl = window.URL.createObjectURL(blob);
-  //     // Open the PDF in a new tab or window
-  //     window.open(pdfUrl, "_blank");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
   useEffect(() => {
     let timeout = setTimeout(() => {

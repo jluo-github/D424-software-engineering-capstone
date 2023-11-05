@@ -12,6 +12,9 @@ const InhousePartForm = () => {
   // const { name, price, inv, max, min, partInhouseId } = part;
   const [error, setError] = useState();
 
+  const [priceError, setPriceError] = useState("");
+  const [price, setPrice] = useState(part.price);
+
   useEffect(() => {
     if (id) {
       const fetchParts = async () => {
@@ -53,6 +56,20 @@ const InhousePartForm = () => {
     });
   };
 
+  const handlePriceChange = (e) => {
+    const input = e.target.value;
+    const validated = input.match(/^\d+(\.\d{0,2})?$/);
+    if (validated || input === "") {
+      setPart({
+        ...part,
+        price: input,
+      });
+      setPriceError("");
+    } else {
+      setPriceError("Please enter a valid price!");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -71,12 +88,14 @@ const InhousePartForm = () => {
       navigate("/Parts");
     } catch (error) {
       if (error.response.data === "Validation failed") {
-        setError("Inventory must be between or at the Max and Min value!!");
+        setError(
+          "Inventory/value must be positive and between or at the Max and Min value!!"
+        );
         console.log(
           "1-Inventory must be between or at the Max and Min value!!!"
         );
       } else {
-        setError("Error adding the part.");
+        setError("Error adding the part, please enter valid value.");
         console.log(
           "2-Inventory must be between or at the Max and Min value!!!"
         );
@@ -87,6 +106,7 @@ const InhousePartForm = () => {
   useEffect(() => {
     let timeout = setTimeout(() => {
       setError("");
+      // setPriceError("");
     }, 3000);
     return () => clearTimeout(timeout);
   }, [error]);
@@ -117,17 +137,20 @@ const InhousePartForm = () => {
           placeholder="Price"
           required
           name="price"
-          type="text"
+          type="number"
           value={part.price}
-          onChange={handleInputChange}
+          onChange={handlePriceChange}
         />
+        <div style={{ color: "red" }}>
+          {priceError ? <p>{priceError}</p> : null}
+        </div>
 
         <input
           className="form-control mb-4 col-4"
           placeholder="Inventory"
           required
           name="inv"
-          type="text"
+          type="number"
           value={part.inv}
           onChange={handleInputChange}
         />
