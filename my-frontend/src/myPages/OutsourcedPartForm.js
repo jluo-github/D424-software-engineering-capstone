@@ -152,7 +152,7 @@ const OutsourcedPartForm = () => {
         {/* Add max int and min int to the form */}
         <input
           className="form-control mb-4 col-4"
-          placeholder="MaxInv"
+          placeholder="Max Inventory"
           required
           name="max"
           type="number"
@@ -162,7 +162,7 @@ const OutsourcedPartForm = () => {
 
         <input
           className="form-control mb-4 col-4"
-          placeholder="MinInv"
+          placeholder="Min Inventory"
           required
           name="min"
           type="number"
