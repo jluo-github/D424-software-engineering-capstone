@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Table, Container } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import axios from "axios";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const ProductDetail = () => {
   const navigate = useNavigate();
@@ -13,7 +13,6 @@ const ProductDetail = () => {
   const [associatedParts, setAssociatedParts] = useState([]);
   const [error, setError] = useState("");
   const [priceError, setPriceError] = useState("");
-  const [price, setPrice] = useState(product.price);
 
   useEffect(() => {
     if (id) {
@@ -109,9 +108,6 @@ const ProductDetail = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const endpoint = id
-      //   ? `http://localhost:8080/api/products/update/${id}`
-      //   : "http://localhost:8080/api/products/add";
       const endpoint = "http://localhost:8080/api/products/add";
 
       const res = await axios.post(endpoint, product, {
@@ -137,7 +133,7 @@ const ProductDetail = () => {
   useEffect(() => {
     let timeout = setTimeout(() => {
       setError("");
-    }, 3000);
+    }, 5000);
     return () => {
       clearTimeout(timeout);
     };

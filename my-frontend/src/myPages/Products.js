@@ -1,55 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { Table, Container } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { Table } from "react-bootstrap";
 import "../App.css";
 import "../custom.scss";
 import axios from "axios";
-import PageNav from "../components/PageNav";
-import OutsourcedPartForm from "./OutsourcedPartForm";
-import InhousePartForm from "./InhousePartForm";
-import { computeHeadingLevel } from "@testing-library/react";
 
 const Products = () => {
   const navigate = useNavigate();
 
-  const [partKeyword, setPartKeyword] = useState("");
   const [productKeyword, setProductKeyword] = useState("");
-  const [parts, setParts] = useState([]);
+
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+
   const [error, setError] = useState("");
   const [errorBuy, setErrorBuy] = useState("");
-
-  // const handlePartInputChange = (e) => {
-  //   setPartKeyword(e.target.value);
-  // };
 
   const handleProductInputChange = (e) => {
     setProductKeyword(e.target.value);
   };
-
-  // const handleInhousePart = () => {
-  //   navigate("/InhousePartForm");
-  // };
-
-  // const handleOutsourcedPart = () => {
-  //   navigate("/OutsourcedPartForm");
-  // };
 
   const handleAddProduct = () => {
     navigate("/ProductDetail");
   };
 
   useEffect(() => {
-    // const fetchParts = async () => {
-    //   try {
-    //     const res = await axios.get("http://localhost:8080/api/parts");
-    //     setParts(res.data);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
-    // fetchParts();
     const fetchProducts = async () => {
       try {
         const res = await axios.get("http://localhost:8080/api/products");
@@ -60,33 +34,6 @@ const Products = () => {
     };
     fetchProducts();
   }, []);
-
-  // const searchParts = async (term) => {
-  //   try {
-  //     const res = await axios.get(`http://localhost:8080/api/parts`, {
-  //       headers: {
-  //         "Access-Control-Allow-Origin": "*",
-  //         "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-  //       },
-  //       params: {
-  //         partKeyword: term,
-  //       },
-  //     });
-  //     setParts(res.data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // const clearSearchParts = async () => {
-  //   try {
-  //     const res = await axios.get("http://localhost:8080/api/parts");
-  //     setPartKeyword("");
-  //     setParts(res.data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
   const searchProducts = async (term) => {
     try {
@@ -114,26 +61,6 @@ const Products = () => {
       console.log(err);
     }
   };
-
-  // const generatePartPDF = async (term) => {
-  //   try {
-  //     const res = await axios.get("http://localhost:8080/api/parts/report", {
-  //       params: {
-  //         partKeyword: term,
-  //       },
-  //       responseType: "blob",
-  //     });
-
-  //     // Create a blob from the response data
-  //     const blob = new Blob([res.data], { type: "application/pdf" });
-  //     // Create a URL for the blob
-  //     const pdfUrl = window.URL.createObjectURL(blob);
-  //     // Open the PDF in a new tab or window
-  //     window.open(pdfUrl, "_blank");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
   const generateProductPDF = async (term) => {
     try {

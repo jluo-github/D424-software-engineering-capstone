@@ -1,8 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-
 import { Container, Navbar, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import Logout from "../authentication/Logout";
 
 const PageNav = () => {
   return (

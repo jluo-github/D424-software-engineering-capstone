@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import "../App.css";
 import "../custom.scss";
 import Footer from "../components/Footer";
-import PageNav from "../components/PageNav";
+
 import supabase from "../services/supabase";
 
 import { useLogin } from "../authentication/useLogin";
@@ -14,11 +14,11 @@ const Login = () => {
   const { id } = useParams();
   console.log(id);
 
-  // const [email, setEmail] = useState("cat1@cat.com");
-  // const [password, setPassword] = useState("1234");
+  const [email, setEmail] = useState("cat1@cat.com");
+  const [password, setPassword] = useState("1234");
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
 
   const { login, isLoading } = useLogin();
 

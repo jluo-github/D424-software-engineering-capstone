@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { Table, Container } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { Table } from "react-bootstrap";
 import "../App.css";
 import "../custom.scss";
 import axios from "axios";
-import PageNav from "../components/PageNav";
-import OutsourcedPartForm from "./OutsourcedPartForm";
-import InhousePartForm from "./InhousePartForm";
-import { computeHeadingLevel } from "@testing-library/react";
 
 const Parts = () => {
   const navigate = useNavigate();
 
   const [partKeyword, setPartKeyword] = useState("");
-  const [productKeyword, setProductKeyword] = useState("");
+
   const [parts, setParts] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+
   const [error, setError] = useState("");
   const [errorBuy, setErrorBuy] = useState("");
 

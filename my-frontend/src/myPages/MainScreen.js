@@ -1,22 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { NavLink, Link, useParams, useNavigate } from "react-router-dom";
-import { Button, Alert, Container, Row, Col } from "react-bootstrap";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Container, Row } from "react-bootstrap";
 
 import Logout from "../authentication/Logout";
 
 import "../App.css";
 import "../custom.scss";
 
-import PageNav from "../components/PageNav";
-import OutsourcedPartForm from "./OutsourcedPartForm";
-import InhousePartForm from "./InhousePartForm";
-
 const MainScreen = () => {
-  const [alert, setAlert] = useState(false);
-  const [display, setDisplay] = useState("display");
-
-  let navigate = useNavigate();
-
   return (
     <>
       <Container></Container>

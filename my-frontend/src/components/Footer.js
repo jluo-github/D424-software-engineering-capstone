@@ -15,7 +15,8 @@ const Footer = () => {
       </a> */}
       <a
         href="https://gitlab.com/wgu-gitlab-environment/student-repos/jluo8/d424-software-engineering-capstone/-/tree/working_branch"
-        target="_blank">
+        target="_blank "
+        rel="noreferer">
         <FaSquareGitlab className="myIcon ms-5" size={30} />
       </a>
     </footer>
