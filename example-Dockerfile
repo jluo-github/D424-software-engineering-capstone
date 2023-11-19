@@ -1,0 +1,12 @@
+
+FROM node:13-alpine
+ENV MONGO_DB_USERNAME:"root"
+ENV MONGO_DB_PASSWORD:"1234"
+RUN mkdir -p /home/app
+COPY . /home/app
+
+CMD ['node', 'server.js']
+
+
+# run: docker file:
+# docker build -t my-app:1.0 .
