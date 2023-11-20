@@ -46,4 +46,29 @@ ARG DEPENDENCY=/workdir/server/target/dependency
 COPY --from=prepare-production ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=prepare-production ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=prepare-production ${DEPENDENCY}/BOOT-INF/classes /app
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.company.project.Application"]
+ENTRYPOINT ["java","-cp","app:app/lib/*","com.example.demo.DemoApplication"]
+
+
+# push to dockerhub jluo23/myproject repo:
+
+# docker tag myproject jluo23/myproject
+# docker push jluo23/myproject
+
+# amazon:
+sudo sh
+yum install -y docker
+service docker start
+docker infor
+
+#pull instance from dockerhub and deploy in a container in amazon:
+
+docker login
+#username: jluo23
+#password: ********
+docker pull jluo23/myproject
+docker images
+
+docker run -d --name aws-application -p 80:8080 jluo23/myproject
+
+
+
