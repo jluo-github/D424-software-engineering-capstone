@@ -18,16 +18,13 @@ const ProductDetail = () => {
     if (id) {
       const fetchProducts = async () => {
         try {
-          const res = await axios.get(
-            `http://localhost:8080/api/products/update/${id}`,
-            {
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods":
-                  "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-              },
-            }
-          );
+          const res = await axios.get(`/api/api/products/update/${id}`, {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods":
+                "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            },
+          });
           const { product, availparts, parts, assparts } = res.data;
           setProduct(product);
           setAvailableParts(availparts);
@@ -47,16 +44,13 @@ const ProductDetail = () => {
     } else {
       const fetchProducts = async () => {
         try {
-          const res = await axios.get(
-            `http://localhost:8080/api/products/add`,
-            {
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods":
-                  "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-              },
-            }
-          );
+          const res = await axios.get(`/api/api/products/add`, {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods":
+                "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            },
+          });
           const { product, availparts, parts, assparts } = res.data;
           // setProduct(product);
           setProduct({
@@ -108,7 +102,7 @@ const ProductDetail = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const endpoint = "http://localhost:8080/api/products/add";
+      const endpoint = "/api/api/products/add";
 
       const res = await axios.post(endpoint, product, {
         headers: {
@@ -236,7 +230,7 @@ const ProductDetail = () => {
                   onClick={async () => {
                     try {
                       const res = await axios.post(
-                        `http://localhost:8080/api/products/${id}/associatepart/${availPart.id}`,
+                        `/api/api/products/${id}/associatepart/${availPart.id}`,
                         product,
                         {
                           headers: {
@@ -308,7 +302,7 @@ const ProductDetail = () => {
                   onClick={async () => {
                     try {
                       const res = await axios.post(
-                        `http://localhost:8080/api/products/${id}/removepart/${assoPart.id}`,
+                        `/api/api/products/${id}/removepart/${assoPart.id}`,
                         product,
                         {
                           headers: {

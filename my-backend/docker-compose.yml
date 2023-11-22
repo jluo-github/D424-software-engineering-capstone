@@ -1,21 +1,21 @@
-version: "3.3"
-services:
-  db:
-  image: mysql/mysql-server:8.0
-  restart: always
-  environment:
-    MYSQL_ROOT_PASSWORD: "1234"
-    MYSQL_DATABASE: "pc_shop"
-    MYSQL_USER: "root"
-    MYSQL_PASSWORD: "1234"
-  ports:
-    - "3306:3306"
-  expose:
-    - "3306"
-  volumes:
-    - my-db:/var/lib/mysql
-  networks:
-    - spring-mysql
+# version: "3.3"
+# services:
+#   db:
+#   image: mysql/mysql-server:8.0
+#   restart: always
+#   environment:
+#     MYSQL_ROOT_PASSWORD: "1234"
+#     MYSQL_DATABASE: "pc_shop"
+#     MYSQL_USER: "root"
+#     MYSQL_PASSWORD: "1234"
+#   ports:
+#     - "3306:3306"
+#   expose:
+#     - "3306"
+#   volumes:
+#     - my-db:/var/lib/mysql
+#   networks:
+#     - spring-mysql
 
-volumes:
-my-db:
+# volumes:
+# my-db:

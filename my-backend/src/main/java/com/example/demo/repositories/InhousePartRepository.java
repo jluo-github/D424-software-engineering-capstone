@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  *
  */
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("*")
 public interface InhousePartRepository extends JpaRepository<InhousePart, Long> {
 }

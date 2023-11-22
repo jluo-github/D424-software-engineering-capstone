@@ -26,7 +26,7 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/api/products");
+        const res = await axios.get("/api/api/products");
         setProducts(res.data);
       } catch (err) {
         console.log(err);
@@ -37,7 +37,7 @@ const Products = () => {
 
   const searchProducts = async (term) => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/products`, {
+      const res = await axios.get(`/api/api/products`, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -54,7 +54,7 @@ const Products = () => {
 
   const clearSearchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/products");
+      const res = await axios.get("/api/api/products");
       setProductKeyword("");
       setProducts(res.data);
     } catch (err) {
@@ -64,7 +64,7 @@ const Products = () => {
 
   const generateProductPDF = async (term) => {
     try {
-      const res = await axios.get("http://localhost:8080/api/products/report", {
+      const res = await axios.get("/api/api/products/report", {
         params: {
           productKeyword: term,
         },
@@ -180,7 +180,7 @@ const Products = () => {
                   onClick={async () => {
                     try {
                       const res = await axios.post(
-                        `http://localhost:8080/api/products/buy/${product.id}`,
+                        `/api/api/products/buy/${product.id}`,
                         {
                           headers: {
                             "Access-Control-Allow-Origin": "*",
@@ -224,7 +224,7 @@ const Products = () => {
                     ) {
                       try {
                         const res = await axios.delete(
-                          `http://localhost:8080/api/products/delete/${product.id}`
+                          `/api/api/products/delete/${product.id}`
                         );
                         console.log("Product deleted:", res.data);
                         setProducts((products) =>

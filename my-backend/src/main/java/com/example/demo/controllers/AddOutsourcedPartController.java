@@ -8,34 +8,34 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/outsourcedParts")
 public class AddOutsourcedPartController {
 
-    @Autowired
-    private OutsourcedPartService outsourcedPartService;
+  @Autowired
+  private OutsourcedPartService outsourcedPartService;
 
-    @GetMapping("/add")
-    public ResponseEntity<OutsourcedPart> showFormAddOutsourcedPart() {
+  @GetMapping("/add")
+  public ResponseEntity<OutsourcedPart> showFormAddOutsourcedPart() {
 
-        OutsourcedPart outsourcedPart = new OutsourcedPart();
+    OutsourcedPart outsourcedPart = new OutsourcedPart();
 
-        return ResponseEntity.ok(outsourcedPart);
+    return ResponseEntity.ok(outsourcedPart);
+  }
+
+  @PostMapping("/add")
+  public ResponseEntity<?> submitForm(@Valid @RequestBody OutsourcedPart part, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      return ResponseEntity.badRequest().body("Validation failed");
+    } else {
+      OutsourcedPart existingPart = outsourcedPartService.findById((int) part.getId());
+      if (existingPart != null) {
+        part.setProducts(existingPart.getProducts());
+      }
+      outsourcedPartService.save(part);
+      return ResponseEntity.ok(part);
     }
-
-    @PostMapping("/add")
-    public ResponseEntity<?> submitForm(@Valid @RequestBody OutsourcedPart part, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body("Validation failed");
-        } else {
-            OutsourcedPart existingPart = outsourcedPartService.findById((int) part.getId());
-            if (existingPart != null) {
-                part.setProducts(existingPart.getProducts());
-            }
-            outsourcedPartService.save(part);
-            return ResponseEntity.ok(part);
-        }
-    }
+  }
 }
 

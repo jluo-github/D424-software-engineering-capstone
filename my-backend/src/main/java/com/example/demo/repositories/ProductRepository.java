@@ -11,8 +11,8 @@ import java.util.List;
  *
  */
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("*")
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    @Query("SELECT p FROM Product p WHERE p.name LIKE %?1%")
-    List<Product> search(String keyword);
+  @Query("SELECT p FROM Product p WHERE p.name LIKE %?1%")
+  List<Product> search(String keyword);
 }

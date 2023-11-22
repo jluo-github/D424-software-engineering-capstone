@@ -19,16 +19,13 @@ const InhousePartForm = () => {
     if (id) {
       const fetchParts = async () => {
         try {
-          const res = await axios.get(
-            `http://localhost:8080/api/parts/update/${id}`,
-            {
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods":
-                  "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-              },
-            }
-          );
+          const res = await axios.get(`/api/api/parts/update/${id}`, {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Methods":
+                "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            },
+          });
           console.log(res.data);
           setPart(res.data);
         } catch (err) {
@@ -73,16 +70,12 @@ const InhousePartForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        `http://localhost:8080/api/inhouseParts/add`,
-        part,
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-          },
-        }
-      );
+      const res = await axios.post(`/api/api/inhouseParts/add`, part, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        },
+      });
       console.log("Part added:", res.data);
       setPart(res.data);
       navigate("/Parts");
