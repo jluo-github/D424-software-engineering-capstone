@@ -1,72 +1,51 @@
-# version: "3.3"
+version: "3.8"
 
 services:
   backend:
-    build: backend
-    restart: always
+    build:
+      context: ./my-backend
+      dockerfile: Dockerfile
+    image: spring-app
+    ports:
+      - "8080:8080"
     environment:
-      MYSQL_HOST: db
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/pc_shop
+      - SPRING_DATASOURCE_USERNAME= root
+      - SPRING_DATASOURCE_PASSWORD= 1234
+    depends_on:
+      - db
     networks:
       - react-spring
       - spring-mysql
+
+  frontend:
+    build:
+      context: ./my-frontend
+      dockerfile: Dockerfile
+    image: react-app
+    ports:
+      - "3000:80"
+    networks:
+      - react-spring
     depends_on:
-      db:
-        condition: service_healthy
+      - backend
+
   db:
-    # We use a mariadb image which supports both amd64 & arm64 architecture
-    image: mariadb:10.6.4-focal
-    # If you really want to use MySQL, uncomment the following line
-    #image: mysql:8.0.19
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "1234"
       MYSQL_DATABASE: "pc_shop"
       MYSQL_USER: "root"
       MYSQL_PASSWORD: "1234"
-    restart: always
-
     volumes:
       - db-data:/var/lib/mysql
     networks:
       - spring-mysql
-  #   image: mysql/mysql-server:8.0
-  #   restart: always
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: "1234"
-  #     MYSQL_DATABASE: "pc_shop"
-  #     MYSQL_USER: "root"
-  #     MYSQL_PASSWORD: "1234"
-  #   ports:
-  #     - "3306:3306"
-  #   expose:
-  #     - "3306"
-  #   volumes:
-  #     - my-db:/var/lib/mysql
-  #   networks:
-  #     - spring-mysql
 
-  frontend:
-    build:
-      context: frontend
-      target: development
-    ports:
-      - 3000:3000
-    volumes:
-      - ./frontend/src:/code/src
-      - /project/node_modules
-    networks:
-      - react-spring
-    depends_on:
-      - backend
-    expose:
-      - 3306
-      - 33060
 volumes:
-  db-data: {}
-
+  db-data:
 networks:
   react-spring: {}
   spring-mysql: {}
-
-
-
-
