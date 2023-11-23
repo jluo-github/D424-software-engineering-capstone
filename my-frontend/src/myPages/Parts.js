@@ -30,7 +30,7 @@ const Parts = () => {
   useEffect(() => {
     const fetchParts = async () => {
       try {
-        const res = await axios.get("/api/api/parts");
+        const res = await axios.get("/api/parts");
         setParts(res.data);
       } catch (err) {
         console.log(err);
@@ -41,7 +41,7 @@ const Parts = () => {
 
   const searchParts = async (term) => {
     try {
-      const res = await axios.get(`/api/api/parts`, {
+      const res = await axios.get(`/api/parts`, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -58,7 +58,7 @@ const Parts = () => {
 
   const clearSearchParts = async () => {
     try {
-      const res = await axios.get("/api/api/parts");
+      const res = await axios.get("/api/parts");
       setPartKeyword("");
       setParts(res.data);
     } catch (err) {
@@ -68,7 +68,7 @@ const Parts = () => {
 
   const generatePartPDF = async (term) => {
     try {
-      const res = await axios.get("/api/api/parts/report", {
+      const res = await axios.get("/api/parts/report", {
         params: {
           partKeyword: term,
         },
@@ -207,7 +207,7 @@ const Parts = () => {
                     ) {
                       try {
                         const res = await axios.delete(
-                          `/api/api/parts/delete/${part.id}`
+                          `/api/parts/delete/${part.id}`
                         );
 
                         console.log("Part deleted:", res.data);

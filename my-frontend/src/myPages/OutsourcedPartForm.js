@@ -17,7 +17,7 @@ const OutsourcedPartForm = () => {
     if (id) {
       const fetchParts = async () => {
         try {
-          const res = await axios.get(`/api/api/parts/update/${id}`, {
+          const res = await axios.get(`/api/parts/update/${id}`, {
             headers: {
               "Access-Control-Allow-Origin": "*",
               "Access-Control-Allow-Methods":
@@ -67,7 +67,7 @@ const OutsourcedPartForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/api/outsourcedParts/add", part, {
+      const res = await axios.post("/api/outsourcedParts/add", part, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",

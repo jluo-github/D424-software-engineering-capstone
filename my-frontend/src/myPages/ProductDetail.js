@@ -18,7 +18,7 @@ const ProductDetail = () => {
     if (id) {
       const fetchProducts = async () => {
         try {
-          const res = await axios.get(`/api/api/products/update/${id}`, {
+          const res = await axios.get(`/api/products/update/${id}`, {
             headers: {
               "Access-Control-Allow-Origin": "*",
               "Access-Control-Allow-Methods":
@@ -44,7 +44,7 @@ const ProductDetail = () => {
     } else {
       const fetchProducts = async () => {
         try {
-          const res = await axios.get(`/api/api/products/add`, {
+          const res = await axios.get(`/api/products/add`, {
             headers: {
               "Access-Control-Allow-Origin": "*",
               "Access-Control-Allow-Methods":
@@ -102,7 +102,7 @@ const ProductDetail = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const endpoint = "/api/api/products/add";
+      const endpoint = "/api/products/add";
 
       const res = await axios.post(endpoint, product, {
         headers: {
@@ -230,7 +230,7 @@ const ProductDetail = () => {
                   onClick={async () => {
                     try {
                       const res = await axios.post(
-                        `/api/api/products/${id}/associatepart/${availPart.id}`,
+                        `/api/products/${id}/associatepart/${availPart.id}`,
                         product,
                         {
                           headers: {
@@ -302,7 +302,7 @@ const ProductDetail = () => {
                   onClick={async () => {
                     try {
                       const res = await axios.post(
-                        `/api/api/products/${id}/removepart/${assoPart.id}`,
+                        `/api/products/${id}/removepart/${assoPart.id}`,
                         product,
                         {
                           headers: {

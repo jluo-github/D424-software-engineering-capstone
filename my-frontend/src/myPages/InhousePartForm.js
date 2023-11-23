@@ -19,7 +19,7 @@ const InhousePartForm = () => {
     if (id) {
       const fetchParts = async () => {
         try {
-          const res = await axios.get(`/api/api/parts/update/${id}`, {
+          const res = await axios.get(`/api/parts/update/${id}`, {
             headers: {
               "Access-Control-Allow-Origin": "*",
               "Access-Control-Allow-Methods":
@@ -70,7 +70,7 @@ const InhousePartForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`/api/api/inhouseParts/add`, part, {
+      const res = await axios.post(`/api/inhouseParts/add`, part, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",

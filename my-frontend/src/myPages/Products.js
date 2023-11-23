@@ -5,6 +5,9 @@ import "../App.css";
 import "../custom.scss";
 import axios from "axios";
 
+//
+// const backendUrl = "http://<ACI_Public_IP>:8080";
+
 const Products = () => {
   const navigate = useNavigate();
 
@@ -26,7 +29,7 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("/api/api/products");
+        const res = await axios.get("/api/products");
         setProducts(res.data);
       } catch (err) {
         console.log(err);
@@ -37,7 +40,7 @@ const Products = () => {
 
   const searchProducts = async (term) => {
     try {
-      const res = await axios.get(`/api/api/products`, {
+      const res = await axios.get(`/api/products`, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
@@ -54,7 +57,7 @@ const Products = () => {
 
   const clearSearchProducts = async () => {
     try {
-      const res = await axios.get("/api/api/products");
+      const res = await axios.get("/api/products");
       setProductKeyword("");
       setProducts(res.data);
     } catch (err) {
@@ -64,7 +67,7 @@ const Products = () => {
 
   const generateProductPDF = async (term) => {
     try {
-      const res = await axios.get("/api/api/products/report", {
+      const res = await axios.get("/api/products/report", {
         params: {
           productKeyword: term,
         },
@@ -180,7 +183,7 @@ const Products = () => {
                   onClick={async () => {
                     try {
                       const res = await axios.post(
-                        `/api/api/products/buy/${product.id}`,
+                        `/api/products/buy/${product.id}`,
                         {
                           headers: {
                             "Access-Control-Allow-Origin": "*",
@@ -224,7 +227,7 @@ const Products = () => {
                     ) {
                       try {
                         const res = await axios.delete(
-                          `/api/api/products/delete/${product.id}`
+                          `/api/products/delete/${product.id}`
                         );
                         console.log("Product deleted:", res.data);
                         setProducts((products) =>
