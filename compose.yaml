@@ -3,7 +3,7 @@ version: "3.8"
 services:
   backend:
     build:
-      context: ./my-backend
+      context: ./backend
       dockerfile: Dockerfile
     image: spring-app
     ports:
@@ -21,7 +21,7 @@ services:
 
   frontend:
     build:
-      context: ./my-frontend
+      context: ./frontend
       dockerfile: Dockerfile
     image: react-app
     ports:
@@ -46,7 +46,7 @@ services:
       - spring-mysql
 
 volumes:
-  db-data:
+  db-data: {}
 networks:
   react-spring: {}
   spring-mysql: {}
