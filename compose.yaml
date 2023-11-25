@@ -9,12 +9,12 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: "jdbc:mysql://db:3306/pc_shop"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/pc_shop"
       SPRING_DATASOURCE_USERNAME: "user"
       SPRING_DATASOURCE_PASSWORD: "1234"
 
     depends_on:
-      - db
+      - mysql
     networks:
       - react-spring
       - spring-mysql
@@ -31,7 +31,7 @@ services:
     depends_on:
       - backend
 
-  db:
+  mysql:
     image: mysql:8.0
     ports:
       - "3306:3306"
@@ -41,12 +41,21 @@ services:
       MYSQL_USER: "user"
       MYSQL_PASSWORD: "1234"
     volumes:
-      - db-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     networks:
       - spring-mysql
 
 volumes:
-  db-data: {}
+  mysql-data: {}
 networks:
   react-spring: {}
   spring-mysql: {}
+#
+
+# docker tag spring-app:latest jluo23/v2capstone:backend
+# docker tag react-app:latest jluo23/v2capstone:frontend
+# docker tag mysql:8.0 jluo23/v2capstone:mysql
+
+# docker push jluo23/v2capstone:backend
+# docker push jluo23/v2capstone:frontend
+# docker push jluo23/v2capstone:mysql

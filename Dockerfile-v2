@@ -1,0 +1,45 @@
+
+# # Stage 1: Build React App
+# # React Frontend Dockerfile
+# FROM node:16.17.1-slim AS react-build
+# WORKDIR /workspace/front
+
+# COPY frontend .
+# RUN npm install
+# RUN npm run build
+
+# # FROM node:16-alpine
+# # WORKDIR /app
+# # COPY --from=react-build /app/build /app/build
+# # RUN npm install -g http-server
+# # EXPOSE 80
+# # CMD ["http-server", "-p", "80", "./build"]
+
+# # Stage 2: Build Java Spring Boot App
+
+# # Dockerfile for Spring Boot backend
+# FROM maven:3.8.3-openjdk-17 AS spring-build
+# WORKDIR /workspace/backend
+
+# COPY backend .
+
+# COPY --from=react-build /workspace/front/build /workspace/backend/src/main/resources/static
+
+# RUN mvn clean install -DskipTests -P dev -q
+
+# # Stage 3: Build Docker Image
+
+# FROM eclipse-temurin:17-jre-alpine
+# WORKDIR /app
+
+# COPY --from=spring-build /workspace/backend/target/*.jar app.jar
+
+# EXPOSE 8080
+# ENTRYPOINT ["java","-jar","/app/app.jar"]
+
+# # docker build -t v2capstone:v2capstone .
+
+# # docker build -t v2capstone -f Dockerfile .
+
+# # docker run -p 8080:8080 -it v2capstone:v2capstone
+
