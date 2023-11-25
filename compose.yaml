@@ -1,61 +1,61 @@
-version: "3.8"
+# version: "3.8"
 
-services:
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    image: spring-app
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/pc_shop"
-      SPRING_DATASOURCE_USERNAME: "user"
-      SPRING_DATASOURCE_PASSWORD: "1234"
+# services:
+#   backend:
+#     build:
+#       context: ./backend
+#       dockerfile: Dockerfile
+#     image: spring-app
+#     ports:
+#       - "8080:8080"
+#     environment:
+#       SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/pc_shop"
+#       SPRING_DATASOURCE_USERNAME: "user"
+#       SPRING_DATASOURCE_PASSWORD: "1234"
 
-    depends_on:
-      - mysql
-    networks:
-      - react-spring
-      - spring-mysql
+#     depends_on:
+#       - mysql
+#     networks:
+#       - react-spring
+#       - spring-mysql
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    image: react-app
-    ports:
-      - "3000:80"
-    networks:
-      - react-spring
-    depends_on:
-      - backend
+#   frontend:
+#     build:
+#       context: ./frontend
+#       dockerfile: Dockerfile
+#     image: react-app
+#     ports:
+#       - "3000:80"
+#     networks:
+#       - react-spring
+#     depends_on:
+#       - backend
 
-  mysql:
-    image: mysql:8.0
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: "1234"
-      MYSQL_DATABASE: "pc_shop"
-      MYSQL_USER: "user"
-      MYSQL_PASSWORD: "1234"
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - spring-mysql
+#   mysql:
+#     image: mysql:8.0
+#     ports:
+#       - "3306:3306"
+#     environment:
+#       MYSQL_ROOT_PASSWORD: "1234"
+#       MYSQL_DATABASE: "pc_shop"
+#       MYSQL_USER: "user"
+#       MYSQL_PASSWORD: "1234"
+#     volumes:
+#       - mysql-data:/var/lib/mysql
+#     networks:
+#       - spring-mysql
 
-volumes:
-  mysql-data: {}
-networks:
-  react-spring: {}
-  spring-mysql: {}
-#
+# volumes:
+#   mysql-data: {}
+# networks:
+#   react-spring: {}
+#   spring-mysql: {}
+# #
 
-# docker tag spring-app:latest jluo23/v2capstone:backend
-# docker tag react-app:latest jluo23/v2capstone:frontend
-# docker tag mysql:8.0 jluo23/v2capstone:mysql
+# # docker tag spring-app:latest jluo23/v2capstone:backend
+# # docker tag react-app:latest jluo23/v2capstone:frontend
+# # docker tag mysql:8.0 jluo23/v2capstone:mysql
 
-# docker push jluo23/v2capstone:backend
-# docker push jluo23/v2capstone:frontend
-# docker push jluo23/v2capstone:mysql
+# # docker push jluo23/v2capstone:backend
+# # docker push jluo23/v2capstone:frontend
+# # docker push jluo23/v2capstone:mysql

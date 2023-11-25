@@ -5,9 +5,9 @@ import "../App.css";
 import "../custom.scss";
 import axios from "axios";
 
-// const backendUrl = "http://<ACI_Public_IP>:8080";
-const backendUrl = "http://localhost:8080";
-// const backendUrl = "http://backend:8080";
+const backendUrl =
+  "https://v1capstone.mangowater-ba761b3a.westus.azurecontainerapps.io";
+// const backendUrl = "http://localhost:8080";
 
 const Products = () => {
   const navigate = useNavigate();
