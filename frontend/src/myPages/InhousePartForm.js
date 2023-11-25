@@ -17,7 +17,6 @@ const InhousePartForm = () => {
   const [error, setError] = useState();
 
   const [priceError, setPriceError] = useState("");
-  const [price, setPrice] = useState(part.price);
 
   useEffect(() => {
     if (id) {
