@@ -1,0 +1,33 @@
+
+stages:
+  - build
+  - push
+  - deploy
+
+build:
+  stage: build
+  image: v2capstone:backend
+  services:
+    - docker:dind
+  script:
+    - docker build -t jluo23/v2capstone:backend .
+
+push:
+  stage: push
+  image: v2capstone:backend
+  services:
+    - docker:dind
+  script:
+    - docker login -u jluo23 -p $DOCKERHUB_PASSWORD
+    - docker push jluo23/v2capstone:backend
+
+deploy:
+  stage: deploy
+  image: v2capstone:backend
+  services:
+    - docker:dind
+  script:
+    - az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+    - az account set --subscription $AZURE_SUBSCRIPTION_ID
+    - az container create --resource-group capstone --name v2capstone --image jluo23/v2capstone:backend --ports 80
+

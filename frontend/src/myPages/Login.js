@@ -53,11 +53,11 @@ const Login = () => {
   };
 
   return (
-    <div className="container text-center m-5">
+    <div className=" text-center m-5">
       <h1>PurpleCat PC Store</h1>
       <h1 className="m-5">User Login</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form className="container" onSubmit={handleSubmit}>
         <input
           className="form-control mb-4 col-4"
           placeholder="Guest Email: cat1@cat.com"

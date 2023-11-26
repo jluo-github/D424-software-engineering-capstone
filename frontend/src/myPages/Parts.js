@@ -6,7 +6,7 @@ import "../custom.scss";
 import axios from "axios";
 
 const backendUrl =
-  "https://v1capstone.mangowater-ba761b3a.westus.azurecontainerapps.io";
+  "https://v2capstone.victoriousbay-30c8b5e1.westus.azurecontainerapps.io";
 // const backendUrl = "http://localhost:8080";
 
 const Parts = () => {
@@ -99,7 +99,7 @@ const Parts = () => {
   }, [error, errorBuy]);
 
   return (
-    <div className="container text-center m-5">
+    <div className=" text-center m-5">
       {/* Parts Search form:  */}
       <div className="text-center m-5">
         <h2 className="m-5">Parts</h2>
@@ -109,7 +109,7 @@ const Parts = () => {
             id="partKeyword"
             name="partKeyword"
             required
-            size="50"
+            // size="50"
             value={partKeyword}
             onChange={handlePartInputChange}
             type="text"
@@ -158,95 +158,97 @@ const Parts = () => {
         </button>
       </div>
       {/* Parts Table */}
-      <Table
-        id="parts"
-        className="darkMode table-dark  m-3 text-center align-middle"
-        striped
-        bordered
-        hover>
-        <thead className="thead-dark">
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Inventory</th>
-            <th>Max Inventory</th>
-            <th>Min Inventory</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {parts.map((part) => (
-            <tr className="darkMode" key={part.id}>
-              <td>{part.name}</td>
-              <td>{part.price}</td>
-              <td>{part.inv}</td>
-              <td>{part.max}</td>
-              <td>{part.min}</td>
-              <td>
-                {/* part update button:  */}
-                <button
-                  className="btn btn-primary m-3"
-                  onClick={() => {
-                    if (part.companyName) {
-                      if (part.id) {
-                        navigate(`/OutsourcedPartForm/${part.id}`);
-                      } else {
-                        navigate(`/OutsourcedPartForm/`);
-                      }
-                    } else {
-                      navigate(`/InhousePartForm/${part.id}`);
-                    }
-                  }}>
-                  Update
-                </button>
-
-                {/* part delete button:  */}
-                <button
-                  className="btn btn-primary m-3"
-                  onClick={async () => {
-                    if (
-                      window.confirm(
-                        "Are you sure you want to delete this part?"
-                      )
-                    ) {
-                      try {
-                        const res = await axios.delete(
-                          `${backendUrl}/api/parts/delete/${part.id}`
-                        );
-
-                        console.log("Part deleted:", res.data);
-                        setParts((parts) =>
-                          parts.filter((item) => item.id !== part.id)
-                        );
-                      } catch (error) {
-                        if (error.response.data) {
-                          setError(error.response.data);
-                          console.log(
-                            "1-Part cannot be deleted due to existing associations with products!!"
-                          );
-                        } else {
-                          setError("Error deleting the part.");
-                          alert(
-                            "2-Part cannot be deleted due to existing associations with products!!"
-                          );
-                        }
-                        console.error("Error deleting part:", error);
-                      }
-                    }
-                  }}>
-                  Delete
-                </button>
-              </td>
+      <div className="container">
+        <Table
+          id="parts"
+          className=" darkMode table-dark  m-3 text-center align-middle"
+          striped
+          bordered
+          hover>
+          <thead className="thead-dark">
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Inventory</th>
+              <th>Max Inventory</th>
+              <th>Min Inventory</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>{" "}
-      <div style={{ color: "red" }}>{error && <p>{error}</p>}</div>
-      <footer>
-        <Link to="/">
-          <button className="btn btn-primary m-5">Back to Main Menu</button>
-        </Link>
-      </footer>
+          </thead>
+          <tbody>
+            {parts.map((part) => (
+              <tr className="darkMode" key={part.id}>
+                <td>{part.name}</td>
+                <td>{part.price}</td>
+                <td>{part.inv}</td>
+                <td>{part.max}</td>
+                <td>{part.min}</td>
+                <td>
+                  {/* part update button:  */}
+                  <button
+                    className="btn btn-primary m-3"
+                    onClick={() => {
+                      if (part.companyName) {
+                        if (part.id) {
+                          navigate(`/OutsourcedPartForm/${part.id}`);
+                        } else {
+                          navigate(`/OutsourcedPartForm/`);
+                        }
+                      } else {
+                        navigate(`/InhousePartForm/${part.id}`);
+                      }
+                    }}>
+                    Update
+                  </button>
+
+                  {/* part delete button:  */}
+                  <button
+                    className="btn btn-primary m-3"
+                    onClick={async () => {
+                      if (
+                        window.confirm(
+                          "Are you sure you want to delete this part?"
+                        )
+                      ) {
+                        try {
+                          const res = await axios.delete(
+                            `${backendUrl}/api/parts/delete/${part.id}`
+                          );
+
+                          console.log("Part deleted:", res.data);
+                          setParts((parts) =>
+                            parts.filter((item) => item.id !== part.id)
+                          );
+                        } catch (error) {
+                          if (error.response.data) {
+                            setError(error.response.data);
+                            console.log(
+                              "1-Part cannot be deleted due to existing associations with products!!"
+                            );
+                          } else {
+                            setError("Error deleting the part.");
+                            alert(
+                              "2-Part cannot be deleted due to existing associations with products!!"
+                            );
+                          }
+                          console.error("Error deleting part:", error);
+                        }
+                      }
+                    }}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>{" "}
+        <div style={{ color: "red" }}>{error && <p>{error}</p>}</div>
+        <footer>
+          <Link to="/">
+            <button className="btn btn-primary m-5">Back to Main Menu</button>
+          </Link>
+        </footer>
+      </div>
     </div>
   );
 };

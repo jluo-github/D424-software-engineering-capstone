@@ -6,7 +6,7 @@ import "../custom.scss";
 import axios from "axios";
 
 const backendUrl =
-  "https://v1capstone.mangowater-ba761b3a.westus.azurecontainerapps.io";
+  "https://v2capstone.victoriousbay-30c8b5e1.westus.azurecontainerapps.io";
 // const backendUrl = "http://localhost:8080";
 
 const Products = () => {
@@ -93,7 +93,7 @@ const Products = () => {
   }, [error, errorBuy]);
 
   return (
-    <div className="container text-center m-5">
+    <div className=" text-center m-5">
       <div className="text-center m-5">
         <h2 className="m-5">Products</h2>
         <form>
@@ -102,7 +102,7 @@ const Products = () => {
             id="productKeyword"
             name="productKeyword"
             required
-            size="50"
+            // size="50"
             value={productKeyword}
             onChange={handleProductInputChange}
             type="text"
@@ -145,111 +145,113 @@ const Products = () => {
         </button>
       </div>
       {/* Products Table */}
-      <Table
-        id="products"
-        // className="table table-bordered table-striped m-3 text-center align-middle"
-        className="darkMode table-dark m-3 text-center align-middle"
-        striped
-        bordered
-        hover>
-        <thead className="thead-dark">
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Inventory</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr className="darkMode" key={product.id}>
-              <td>{product.name}</td>
-              <td>{product.price}</td>
-              <td>{product.inv}</td>
-              <td>
-                {/* Products Update button */}
-                <button
-                  className="btn btn-primary m-3"
-                  onClick={() => {
-                    navigate(`/ProductDetail/${product.id}`);
-                  }}>
-                  Update
-                </button>
-
-                {/* Products Buy button */}
-                <button
-                  className="btn btn-primary m-3"
-                  onClick={async () => {
-                    try {
-                      const res = await axios.post(
-                        `${backendUrl}/api/products/buy/${product.id}`,
-                        {
-                          headers: {
-                            "Access-Control-Allow-Origin": "*",
-                            "Access-Control-Allow-Methods":
-                              "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-                          },
-                        }
-                      );
-                      const updatedProducts = [...products];
-                      const productIndex = updatedProducts.findIndex(
-                        (p) => p.id === product.id
-                      );
-
-                      if (productIndex !== -1) {
-                        updatedProducts[productIndex] = {
-                          ...updatedProducts[productIndex],
-                          inv: updatedProducts[productIndex].inv - 1,
-                        };
-                        setProducts(updatedProducts);
-                      }
-                      console.log("Product bought:", res.data);
-                      alert("Product bought successfully");
-                      navigate("/products");
-                    } catch (error) {
-                      setErrorBuy(
-                        "Purchase unsuccessful, product is out of stock!"
-                      );
-                    }
-                  }}>
-                  Buy Now
-                </button>
-
-                {/* Products Delete button */}
-                <button
-                  className="btn btn-primary  m-3"
-                  onClick={async () => {
-                    if (
-                      window.confirm(
-                        "Are you sure you want to delete this product?"
-                      )
-                    ) {
-                      try {
-                        const res = await axios.delete(
-                          `${backendUrl}/api/products/delete/${product.id}`
-                        );
-                        console.log("Product deleted:", res.data);
-                        setProducts((products) =>
-                          products.filter((item) => item.id !== product.id)
-                        );
-                      } catch (error) {
-                        console.error("Error deleting product:", error);
-                      }
-                    }
-                  }}>
-                  Delete
-                </button>
-              </td>
+      <div className="container">
+        <Table
+          id="products"
+          // className="table table-bordered table-striped m-3 text-center align-middle"
+          className="darkMode table-dark m-3 text-center align-middle"
+          striped
+          bordered
+          hover>
+          <thead className="thead-dark">
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Inventory</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>{" "}
-      <div style={{ color: "red" }}>{errorBuy && <p>{errorBuy}</p>}</div>
-      <footer>
-        <Link to="/">
-          <button className="btn btn-primary  m-5">Back to Main Menu</button>
-        </Link>
-      </footer>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr className="darkMode" key={product.id}>
+                <td>{product.name}</td>
+                <td>{product.price}</td>
+                <td>{product.inv}</td>
+                <td>
+                  {/* Products Update button */}
+                  <button
+                    className="btn btn-primary m-3"
+                    onClick={() => {
+                      navigate(`/ProductDetail/${product.id}`);
+                    }}>
+                    Update
+                  </button>
+
+                  {/* Products Buy button */}
+                  <button
+                    className="btn btn-primary m-3"
+                    onClick={async () => {
+                      try {
+                        const res = await axios.post(
+                          `${backendUrl}/api/products/buy/${product.id}`,
+                          {
+                            headers: {
+                              "Access-Control-Allow-Origin": "*",
+                              "Access-Control-Allow-Methods":
+                                "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                            },
+                          }
+                        );
+                        const updatedProducts = [...products];
+                        const productIndex = updatedProducts.findIndex(
+                          (p) => p.id === product.id
+                        );
+
+                        if (productIndex !== -1) {
+                          updatedProducts[productIndex] = {
+                            ...updatedProducts[productIndex],
+                            inv: updatedProducts[productIndex].inv - 1,
+                          };
+                          setProducts(updatedProducts);
+                        }
+                        console.log("Product bought:", res.data);
+                        alert("Product bought successfully");
+                        navigate("/products");
+                      } catch (error) {
+                        setErrorBuy(
+                          "Purchase unsuccessful, product is out of stock!"
+                        );
+                      }
+                    }}>
+                    Buy Now
+                  </button>
+
+                  {/* Products Delete button */}
+                  <button
+                    className="btn btn-primary  m-3"
+                    onClick={async () => {
+                      if (
+                        window.confirm(
+                          "Are you sure you want to delete this product?"
+                        )
+                      ) {
+                        try {
+                          const res = await axios.delete(
+                            `${backendUrl}/api/products/delete/${product.id}`
+                          );
+                          console.log("Product deleted:", res.data);
+                          setProducts((products) =>
+                            products.filter((item) => item.id !== product.id)
+                          );
+                        } catch (error) {
+                          console.error("Error deleting product:", error);
+                        }
+                      }
+                    }}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>{" "}
+        <div style={{ color: "red" }}>{errorBuy && <p>{errorBuy}</p>}</div>
+        <footer>
+          <Link to="/">
+            <button className="btn btn-primary  m-5">Back to Main Menu</button>
+          </Link>
+        </footer>
+      </div>
     </div>
   );
 };

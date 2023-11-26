@@ -11,7 +11,7 @@ const MainScreen = () => {
   return (
     <>
       <Container></Container>
-      <div className="container m-5">
+      <div className=" m-5">
         <Row className="mt-5 mb-5 text-center">
           {" "}
           <h1>PurpleCat PC Store</h1>

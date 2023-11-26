@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 const About = () => {
   return (
-    <div className="container m-5 text-center">
+    <div className=" m-5 text-center">
       <h1>About</h1>
-      <p className="m-5">
+      <p className=" m-5">
         PurpleCat PC store is a company that manufactures, sells, and services
         custom computers. We offer a wide range of customization options,
         including processor, memory, graphics card, and storage. We also offer
