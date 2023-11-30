@@ -1,4 +1,3 @@
-
 stages:
   - build
   - push
@@ -30,4 +29,3 @@ deploy:
     - az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
     - az account set --subscription $AZURE_SUBSCRIPTION_ID
     - az container create --resource-group capstone --name v2capstone --image jluo23/v2capstone:backend --ports 80
-
